@@ -36,7 +36,7 @@ class APIService: APIServiceProtocol {
     
     func fetchCurrenciesList(currencyName: String, completion: @escaping (_ currencies: [Currency]?, _ error: APIError?) -> Void) {
         
-        let urlString = Constants.host + "/latest?base=\(currencyName)"
+        let urlString = Network.host + "/latest?base=\(currencyName)"
         
         let url = URL(string: urlString)
         

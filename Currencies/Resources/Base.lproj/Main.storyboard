@@ -87,13 +87,13 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AUD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbj-Qy-cgH">
-                                                    <rect key="frame" x="48" y="18.5" width="33.5" height="19.5"/>
+                                                    <rect key="frame" x="56" y="18.5" width="33.5" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.54509803921568623" green="0.58431372549019611" blue="0.61960784313725492" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Australian Dollar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dh-Kt-mPU">
-                                                    <rect key="frame" x="89.5" y="18.5" width="118.5" height="19.5"/>
+                                                    <rect key="frame" x="105.5" y="18.5" width="118.5" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -101,10 +101,10 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="d2E-lN-ceU" firstAttribute="leading" secondItem="hXC-5V-aWD" secondAttribute="leading" constant="16" id="JbN-Ne-CKz"/>
-                                                <constraint firstItem="vbj-Qy-cgH" firstAttribute="leading" secondItem="d2E-lN-ceU" secondAttribute="trailing" constant="8" id="Rhh-f8-ziD"/>
+                                                <constraint firstItem="vbj-Qy-cgH" firstAttribute="leading" secondItem="d2E-lN-ceU" secondAttribute="trailing" constant="16" id="Rhh-f8-ziD"/>
                                                 <constraint firstItem="vbj-Qy-cgH" firstAttribute="centerY" secondItem="d2E-lN-ceU" secondAttribute="centerY" id="TcF-L0-1hO"/>
+                                                <constraint firstItem="0dh-Kt-mPU" firstAttribute="leading" secondItem="d2E-lN-ceU" secondAttribute="trailing" constant="65.5" id="bA4-Tg-X9q"/>
                                                 <constraint firstItem="d2E-lN-ceU" firstAttribute="centerY" secondItem="hXC-5V-aWD" secondAttribute="centerY" id="e73-ic-knO"/>
-                                                <constraint firstItem="0dh-Kt-mPU" firstAttribute="leading" secondItem="vbj-Qy-cgH" secondAttribute="trailing" constant="8" id="ktQ-ZJ-8ms"/>
                                                 <constraint firstItem="0dh-Kt-mPU" firstAttribute="centerY" secondItem="vbj-Qy-cgH" secondAttribute="centerY" id="qDY-YD-Joq"/>
                                             </constraints>
                                         </tableViewCellContentView>

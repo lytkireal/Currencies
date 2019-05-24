@@ -8,41 +8,51 @@
 
 import Foundation
 
-struct Constants {
+struct Network {
     static let host = "https://revolut.duckdns.org"
-    static let currencyShortAndLongNameChains = [
-        "AUD": "Australia Dollar",
-        "BGN": "Bulgaria Lev",
-        "BRL": "Brazil Real",
-        "CAD": "Canada Dollar",
-        "CHF": "Switzerland Frank",
-        "CNY": "China Yuan Renminbi",
-        "CZK": "Czech Republic Koruna",
-        "DKK": "Denmark Krone",
-        "GBP": "United Kingdom Pound",
+}
+
+class CurrencyManager {
+    
+    static let sharedInstance = CurrencyManager()
+    
+    private let currencyNameChains = [
+        "AUD": "Australian Dollar",
+        "BGN": "Bulgarian Lev",
+        "BRL": "Brazilian Real",
+        "CAD": "Canadian Dollar",
+        "CHF": "Swiss Frank",
+        "CNY": "Chinese Yuan Renminbi",
+        "CZK": "Czech Koruna",
+        "DKK": "Danish Krone",
+        "GBP": "British Pound",
         "HKD": "Hong Kong Dollar",
-        "HRK": "Croatia Kuna",
-        "HUF": "Hungary Forint",
-        "IDR": "Indonesia Rupiah",
-        "ILS": "Israel Shekel",
-        "INR": "India Rupee",
-        "ISK": "Iceland Krona",
-        "JPY": "Japan Yen",
-        "KRW": "Korea (South) Won",
-        "MXN": "Mexico Peso",
-        "MYR": "Malaysia Ringgit",
-        "NOK": "Norway Krone",
+        "HRK": "Croatian Kuna",
+        "HUF": "Hungarian Forint",
+        "IDR": "Indonesian Rupiah",
+        "ILS": "Israeli Shekel",
+        "INR": "Indian Rupee",
+        "ISK": "Icelandic Krona",
+        "JPY": "Japanese Yen",
+        "KRW": "South Korean Won",
+        "MXN": "Mexican Peso",
+        "MYR": "Malaysian Ringgit",
+        "NOK": "Norwegian Krone",
         "NZD": "New Zealand Dollar",
-        "PHP": "Philippines Piso",
-        "PLN": "Poland Zloty",
+        "PHP": "Philippine Peso",
+        "PLN": "Polish Zloty",
         "RON": "Romanian Leu",
-        "RUB": "Russia Ruble",
-        "SEK": "Sweden Krona",
+        "RUB": "Russian Ruble",
+        "SEK": "Swedish Krona",
         "SGD": "Singapore Dollar",
-        "THB": "Thailand Baht",
-        "TRY": "Turkey Lira",
-        "USD": "United States Dollar",
-        "ZAR": "South Africa Rand",
+        "THB": "Thai Baht",
+        "TRY": "Turkish Lira",
+        "USD": "US Dollar",
+        "ZAR": "South African Rand",
         "EUR": "Euro"
     ]
+    
+    subscript(currencyShortName: String) -> String? {
+        return currencyNameChains[currencyShortName]
+    }
 }

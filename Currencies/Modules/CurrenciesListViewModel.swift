@@ -135,8 +135,9 @@ class CurrenciesListViewModel {
     private func processFetchedCurrencies(currencies: [String]) {
         self.currencies = currencies
         var cellViewModels = [CurrencyListCellViewModel]()
+        
         for currency in currencies {
-            cellViewModels.append(CurrencyListCellViewModel(titleText: currency, decriptionText: currency, value: "0"))
+            cellViewModels.append(CurrencyListCellViewModel(titleText: currency, decriptionText: CurrencyManager.sharedInstance[currency] ?? "", value: "0"))
         }
         self.cellViewModels = cellViewModels
     }
