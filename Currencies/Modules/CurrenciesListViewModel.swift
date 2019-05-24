@@ -87,26 +87,9 @@ class CurrenciesListViewModel {
     // MARK: - Public
     
     func initFetch() {
-        isLoading = true
-//        apiService.fetchCurrenciesList(currencyName: "EUR") { [weak self] (currencies, error) in
-//            self?.isLoading = false
-//            if let error = error {
-//                self?.alertMessage = error.rawValue
-//            } else if let currencies = currencies {
-//                self?.processFetchedCurrencies(currencies: currencies)
-//            }
-//        }
-        
         apiService.loadCurrenciesList { currencies in
             self.processFetchedCurrencies(currencies: currencies)
         }
-        
-        // Start timer with interval 1 s:
-//        timer = Timer.scheduledTimer(timeInterval: 1.0,
-//                                     target: self,
-//                                     selector: #selector(getCurrenciesList),
-//                                     userInfo: nil,
-//                                     repeats: true)
     }
     
     func createCellViewModel(currency: Currency) -> CurrencyListCellViewModel {
@@ -153,21 +136,7 @@ class CurrenciesListViewModel {
 
 extension CurrenciesListViewModel {
     func userPressed(at indexPath: IndexPath) {
-    
-        self.moveCellToTopClosure? (indexPath)
         
-//        // Update data source for a table view:
-//        // 1
-//        selectedCurrency = currencies[indexPath.row]
-//        if let currency = selectedCurrency {
-//            currencies.remove(at: indexPath.row)
-//            currencies.insert(currency, at: 0)
-//        }
-//        // 2
-//        let movedCellViewModel = cellViewModels[indexPath.row]
-//        cellViewModels.remove(at: indexPath.row)
-//        cellViewModels.insert(movedCellViewModel, at: 0)
-
     }
 }
 
