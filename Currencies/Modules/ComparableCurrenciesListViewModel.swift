@@ -8,12 +8,7 @@
 
 import Foundation
 
-enum CurrenciesListViewModelModes  {
-    case allRates
-    case converter
-}
-
-class CurrenciesListViewModel {
+class ComparableCurrenciesListViewModel {
     
     // MARK: - Properties
     
@@ -81,8 +76,8 @@ class CurrenciesListViewModel {
     
     // MARK: - Lifecycle
     
-    init(apiService: APIServiceProtocol = APIService()) {
-        self.apiService = apiService
+    init(currencies: [Currency]) {
+        self.currencies = currencies
     }
     
     // MARK: - Public
@@ -138,10 +133,16 @@ class CurrenciesListViewModel {
     }
 }
 
-extension ComparableCurrenciesListViewModel {
+extension CurrenciesListViewModel {
     func userPressed(at indexPath: IndexPath) {
         
     }
+}
+
+struct CurrencyListCellViewModel {
+    let titleText: String
+    let decriptionText: String
+    var value: String
 }
 
 

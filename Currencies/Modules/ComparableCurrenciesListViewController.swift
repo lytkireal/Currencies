@@ -1,23 +1,23 @@
 //
-//  ViewController.swift
-//  Revolut
+//  ComparableCurrenciesListViewController.swift
+//  Currencies
 //
-//  Created by Artem Lytkin on 20.08.2018.
-//  Copyright © 2018 Artem Lytkin. All rights reserved.
+//  Created by macbook air on 26/05/2019.
+//  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
 import UIKit
 
-class CurrenciesListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CurrencyTableViewCellDelegate {
-
+class ComparableCurrenciesListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CurrencyTableViewCellDelegate {
+    
     // MARK: - IBOutlets
     
     @IBOutlet weak var tableView: UITableView!
     
     // MARK: - Properties
     
-    lazy var viewModel: CurrenciesListViewModel = {
-        return CurrenciesListViewModel()
+    lazy var viewModel: ComparableCurrenciesListViewModel = {
+        return ComparableCurrenciesListViewModel(currencies: <#[Currency]#>)
     }()
     
     // MARK: - View Lifecycle
@@ -27,12 +27,6 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
         tableView.keyboardDismissMode = .onDrag
         
         initViewModel()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let comparableCurrenciesVC = segue.destination as? ComparableCurrenciesListViewController {
-            comparableCurrenciesVC.viewModel = ComparableCurrenciesListViewModel
-        }
     }
     
     // MARK: - Table View Data Source
@@ -62,18 +56,18 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
-       // guard viewModel.isAllowToTapOnCell else {
-         //   return nil
-       // }
+        // guard viewModel.isAllowToTapOnCell else {
+        //   return nil
+        // }
         
         return indexPath
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-      //  guard viewModel.isAllowToTapOnCell else {
-      //      return
-      //  }
+        //  guard viewModel.isAllowToTapOnCell else {
+        //      return
+        //  }
         
         viewModel.userPressed(at: indexPath)
     }
@@ -122,7 +116,7 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
         viewModel.reloadTableViewClosure = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
-            } 
+            }
         }
         
         // 4 - tapOnCellClosure
@@ -132,10 +126,10 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
             guard let self = self else { return }
             
             DispatchQueue.main.async {
-                self.performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
+                self.show(self, sender: nil)
                 //selectedCells.forEach {
-//                    self?.tableView.selectRow(at: $0, animated: false, scrollPosition: .none)
-  //              }
+                //                    self?.tableView.selectRow(at: $0, animated: false, scrollPosition: .none)
+                //              }
             }
         }
         
@@ -149,13 +143,13 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
                 
                 UIView.animate(withDuration: 0.3, animations: {
                     self?.tableView.scrollToRow(at: topRowIndexPath, at: .top, animated: false)
-                
+                    
                 }, completion: { (_) in
                     if let currencyCell = self?.tableView.cellForRow(at: topRowIndexPath) as? CurrencyTableViewCell {
                         //currencyCell.inputActivate()
                     }
                 })
-            
+                
             }
             
             // **
@@ -179,6 +173,7 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
         present(alertVC, animated: true, completion: nil)
     }
 }
+
 
 
 

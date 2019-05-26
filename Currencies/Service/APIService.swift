@@ -16,18 +16,23 @@ enum APIError: String, Error {
 protocol APIServiceProtocol {
     func fetchCurrenciesList(currencyName: String, completion: @escaping (_ currencies: [Currency]?, _ error: APIError?) -> Void)
     
-    func loadCurrenciesList(completion: @escaping (_ currencies: [String]) -> Void)
+    func loadCurrenciesList(completion: @escaping (_ currencies: [Currency]) -> Void)
 }
 
 class APIService: APIServiceProtocol {
     
-    func loadCurrenciesList(completion: @escaping (_ currencies: [String]) -> Void) {
+    func loadCurrenciesList(completion: @escaping (_ currencies: [Currency]) -> Void) {
         if let url = Bundle.main.url(forResource: "currencies", withExtension: "json") {
             do {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
                 let jsonData = try decoder.decode(Array<String>.self, from: data)
-                completion(jsonData)
+                
+                let currencies = jsonData.map {
+                    return Currency(shortName: $0)
+                }
+                
+                completion(currencies)
             } catch {
                 print(error)
             }

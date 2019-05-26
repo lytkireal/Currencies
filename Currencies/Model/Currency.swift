@@ -15,6 +15,83 @@ struct Currency: Equatable {
     }
     
     var shortName: String
-    var longName: String?
     var coefficient: Double
+    
+    init(shortName: String, coefficient: Double = 0) {
+        self.shortName = shortName
+        self.coefficient = coefficient
+    }
+    
+    subscript(currencyShortName: String) -> String? {
+        switch currencyShortName {
+        case "AUD":
+            return "Australian Dollar"
+        case "BGN":
+            return "Bulgarian Lev"
+        case "BRL":
+            return "Brazilian Real"
+        case "CAD":
+            return "Canadian Dollar"
+        case "CHF":
+            return "Swiss Frank"
+        case "CNY":
+            return "Chinese Yuan Renminbi"
+        case "CZK":
+            return "Czech Koruna"
+        case "DKK":
+            return "Danish Krone"
+        case "GBP":
+            return "British Pound"
+        case "HKD":
+            return "Hong Kong Dollar"
+        case "HRK":
+            return "Croatian Kuna"
+        case "HUF":
+            return "Hungarian Forint"
+        case "IDR":
+            return "Indonesian Rupiah"
+        case "ILS":
+            return "Israeli Shekel"
+        case "INR":
+            return "Indian Rupee"
+        case "ISK":
+            return "Icelandic Krona"
+        case "JPY":
+            return "Japanese Yen"
+        case "KRW":
+            return "South Korean Won"
+        case "MXN":
+            return "Mexican Peso"
+        case "MYR":
+            return "Malaysian Ringgit"
+        case "NOK":
+            return "Norwegian Krone"
+        case "NZD":
+            return "New Zealand Dollar"
+        case "PHP":
+            return "Philippine Peso"
+        case "PLN":
+            return "Polish Zloty"
+        case "RON":
+            return "Romanian Leu"
+        case "RUB":
+            return "Russian Ruble"
+        case "SEK":
+            return "Swedish Krona"
+        case "SGD":
+            return "Singapore Dollar"
+        case "THB":
+            return "Thai Baht"
+        case "TRY":
+            return "Turkish Lira"
+        case "USD":
+            return "US Dollar"
+        case "ZAR":
+            return "South African Rand"
+        case "EUR":
+            return "Euro"
+        default:
+            return "No long n"
+        }
+    }
 }
