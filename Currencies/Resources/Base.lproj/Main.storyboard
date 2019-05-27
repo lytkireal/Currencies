@@ -137,7 +137,6 @@
                     <navigationItem key="navigationItem" id="ZQu-Yr-HFz"/>
                     <connections>
                         <outlet property="tableView" destination="TNw-he-Lui" id="1z9-Nn-JKx"/>
-                        <segue destination="Ime-Mi-1Ut" kind="show" identifier="ComprableVCSegue" id="S4c-5f-55o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9LC-C8-HM8" sceneMemberID="firstResponder"/>
@@ -221,17 +220,12 @@
                                     <outlet property="delegate" destination="Ime-Mi-1Ut" id="chn-QQ-vLP"/>
                                 </connections>
                             </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0Px-ZJ-NYZ">
-                                <rect key="frame" x="150" y="274" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="COx-cg-OI9" firstAttribute="top" secondItem="ry1-zC-PV7" secondAttribute="top" id="8fC-eA-AnZ"/>
                             <constraint firstItem="ry1-zC-PV7" firstAttribute="bottom" secondItem="COx-cg-OI9" secondAttribute="bottom" id="9Hm-dr-jzX"/>
                             <constraint firstItem="COx-cg-OI9" firstAttribute="leading" secondItem="ry1-zC-PV7" secondAttribute="leading" id="SR8-nM-3nR"/>
-                            <constraint firstItem="0Px-ZJ-NYZ" firstAttribute="centerY" secondItem="1iY-25-Q8V" secondAttribute="centerY" id="d8W-c1-P77"/>
-                            <constraint firstItem="0Px-ZJ-NYZ" firstAttribute="centerX" secondItem="1iY-25-Q8V" secondAttribute="centerX" id="f22-N9-kdw"/>
                             <constraint firstItem="COx-cg-OI9" firstAttribute="trailing" secondItem="ry1-zC-PV7" secondAttribute="trailing" id="h2V-o9-KGT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ry1-zC-PV7"/>

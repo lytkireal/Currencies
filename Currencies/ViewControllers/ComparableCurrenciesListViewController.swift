@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class ComparableCurrenciesListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CurrencyTableViewCellDelegate {
+class ComparableCurrenciesListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     static func `init`(viewModel: ComparableCurrenciesListViewModel) -> ComparableCurrenciesListViewController? {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -46,52 +46,32 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // 1
-        let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyTableViewCell.identifier(), for: indexPath) as? CurrencyTableViewCell
-        
-        // 2 Check that cell is registered and currencies array is not nil:
-        guard let currencyCell = cell else {
-            print("CurrencyTableViewCell doesn't register in table view.")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyTableViewCell.identifier(), for: indexPath) as? CurrencyTableViewCell else {
+            
             return UITableViewCell()
         }
         
         let cellModel = viewModel.getCellViewModel(at: indexPath)
-        currencyCell.configureWithCellModel(cellModel)
-        currencyCell.delegate = self
+        cell.configureWithCellModel(cellModel)
         
-        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        
-        return currencyCell
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cellModel = viewModel.getCellViewModel(at: indexPath)
+        if cellModel.isSelected {
+            cell.setSelected(true, animated: false)
+        }
     }
     
     // MARK: - TableView delegate
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        
-        // guard viewModel.isAllowToTapOnCell else {
-        //   return nil
-        // }
-        
         return indexPath
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //  guard viewModel.isAllowToTapOnCell else {
-        //      return
-        //  }
-        
         viewModel.userPressed(at: indexPath)
-    }
-    
-    // MARK: - CurrencyTableViewCellDelegate
-    
-    func currencyTableViewCellDelegate(_ currencyShortName: String, newValueOfCurrency: String) {
-        //viewModel.userChangedValueFor(name: currencyShortName, withValue: newValueOfCurrency)
-    }
-    
-    func currencyValueDidBeginEditing() {
-        
     }
     
     // MARK: - Helpers

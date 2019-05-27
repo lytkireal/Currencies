@@ -13,7 +13,7 @@ protocol CurrencyTableViewCellDelegate: class {
     func currencyValueDidBeginEditing()
 }
 
-class CurrencyTableViewCell: UITableViewCell, UITextFieldDelegate {
+class CurrencyTableViewCell: UITableViewCell {
     
     // MARK: - IBOutlets
     @IBOutlet weak var currencyImageView: UIImageView!
@@ -34,27 +34,6 @@ class CurrencyTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     // MARK: - Layout
     
-    // MARK: - UITextFieldDelegate
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        guard let currencyIdentifier = currencyIdentifier else { return true }
-        
-        // 1
-        let oldText = textField.text!
-        let stringRange = Range(range, in: oldText)!
-        let newText = oldText.replacingCharacters(in: stringRange, with: string)
-        
-        // 2
-        if !newText.isEmpty {
-            delegate?.currencyTableViewCellDelegate(currencyIdentifier, newValueOfCurrency: newText.replacingOccurrences(of: ",", with: "."))
-        } else {
-            delegate?.currencyTableViewCellDelegate(currencyIdentifier, newValueOfCurrency: "0")
-        }
-        
-        return true
-    }
-    
     // MARK: - Public
     
     public func configureWithCellModel(_ cellModel: CurrencyListCellViewModel) {
@@ -62,8 +41,33 @@ class CurrencyTableViewCell: UITableViewCell, UITextFieldDelegate {
         shortNameLabel?.text = cellModel.titleText
         longNameLabel?.text = cellModel.decriptionText
         currencyIdentifier = cellModel.titleText
-        isHighlighted = cellModel.isSelected
-        isSelected = cellModel.isSelected
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        print("setSelected")
+        
+        let alpha: CGFloat = selected ? 0.5 : 1
+        
+        currencyImageView.alpha = alpha
+        shortNameLabel.alpha = alpha
+        longNameLabel.alpha = alpha
+        
+        self.contentView.backgroundColor = .white
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+//
+//        let alpha: CGFloat = highlighted ? 0.5 : 1
+//
+//        currencyImageView.alpha = alpha
+//        shortNameLabel.alpha = alpha
+//        longNameLabel.alpha = alpha
+//
+//        if highlighted {
+//            self.selectedBackgroundView?.backgroundColor = nil
+//        }
     }
     
     // MARK: - Static

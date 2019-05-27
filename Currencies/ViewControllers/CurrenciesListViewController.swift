@@ -29,12 +29,6 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
         initViewModel()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let comparableCurrenciesVC = segue.destination as? ComparableCurrenciesListViewController {
-            
-        }
-    }
-    
     // MARK: - Table View Data Source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,27 +36,24 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // 1
-        let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyTableViewCell.identifier(), for: indexPath) as? CurrencyTableViewCell
-        
-        // 2 Check that cell is registered and currencies array is not nil:
-        guard let currencyCell = cell else {
-            print("CurrencyTableViewCell doesn't register in table view.")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyTableViewCell.identifier(), for: indexPath) as? CurrencyTableViewCell else {
+            
             return UITableViewCell()
         }
         
         let cellModel = viewModel.getCellViewModel(at: indexPath)
-        currencyCell.configureWithCellModel(cellModel)
-        currencyCell.delegate = self
+        cell.configureWithCellModel(cellModel)
+        cell.delegate = self
         
-        return currencyCell
+        return cell
     }
     
     // MARK: - TableView delegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        self.viewModel.userPressed(at: indexPath)
+        viewModel.userPressed(at: indexPath)
     }
     
     // MARK: - CurrencyTableViewCellDelegate
