@@ -25,24 +25,25 @@ class ComparableCurrenciesListViewModel {
         return currencies.count
     }
     
-    //var selectedCurrency: Currency?
+    private var firstCurrencyInPair: Currency
+    private var secondCurrencyInPair: Currency?
+    
+    // MARK: - Binding
     
     var showAlertClosure: EmptyClosure?
     
-    var timer = Timer()
-    
-    var isAllowToTapOnCell: Bool = false
-    
     // MARK: - Lifecycle
     
-    init(currencies: [Currency]) {
+    init(currencies: [Currency], comparableCurrency: Currency) {
         self.currencies = currencies
+        self.firstCurrencyInPair = comparableCurrency
         processFetchedCurrencies(currencies: currencies)
     }
     
     // MARK: - Public
     
     public func userPressed(at indexPath: IndexPath) {
+        secondCurrencyInPair = currencies[indexPath.row]
         
     }
     

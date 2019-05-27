@@ -8,11 +8,6 @@
 
 import Foundation
 
-enum CurrenciesListViewModelModes  {
-    case allRates
-    case converter
-}
-
 struct CurrencyListCellViewModel {
     let titleText: String
     let decriptionText: String
@@ -50,30 +45,11 @@ class CurrenciesListViewModel {
         return currencies.count
     }
     
-    var selectedCurrency: Currency?
+    // MARK: - Binding
     
     var reloadTableViewClosure: EmptyClosure?
     var showAlertClosure: EmptyClosure?
-    var showComparableCurrenciesScreen: EmptyClosure?
-    
-    var timer = Timer()
-    
-    var amountOfMoneyInEuro: Double = 10.0
-    
-    var mode: CurrenciesListViewModelModes = .allRates {
-        didSet {
-            if mode == .allRates {
-                reloadTableViewClosure?()
-                isAllowToTapOnCell = false
-            } else {
-                isAllowToTapOnCell = true
-            }
-            amountOfMoneyInEuro = 10.0
-            selectedCurrency = nil
-        }
-    }
-    
-    var isAllowToTapOnCell: Bool = false
+    var showComparableCurrenciesScreen: ( (_ selectedIndexPath: IndexPath) -> Void )?
     
     // MARK: - Lifecycle
     
@@ -85,7 +61,7 @@ class CurrenciesListViewModel {
     
     public func userPressed(at indexPath: IndexPath) {
         currencies[indexPath.row].isSelected = true
-        showComparableCurrenciesScreen?()
+        showComparableCurrenciesScreen?(indexPath)
     }
     
     public func initFetch() {
@@ -100,8 +76,8 @@ class CurrenciesListViewModel {
         return cellViewModel
     }
     
-    public func getModelForComparableCurrenciesListVC() -> ComparableCurrenciesListViewModel {
-        return ComparableCurrenciesListViewModel(currencies: currencies)
+    public func getModelForComparableCurrenciesListVC(forRowAt indexPath: IndexPath) -> ComparableCurrenciesListViewModel {
+        return ComparableCurrenciesListViewModel(currencies: currencies, comparableCurrency: currencies[indexPath.row])
     }
     
     // MARK: - Private

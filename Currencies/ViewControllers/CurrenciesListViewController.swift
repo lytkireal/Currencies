@@ -73,10 +73,10 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
         }
         
         // * showComparableCurrenciesScreen
-        viewModel.showComparableCurrenciesScreen = { [weak self] in
+        viewModel.showComparableCurrenciesScreen = { [weak self] (indexPath) in
             guard let self = self else { return }
             
-            let viewModel = self.viewModel.getModelForComparableCurrenciesListVC()
+            let viewModel = self.viewModel.getModelForComparableCurrenciesListVC(forRowAt: indexPath)
             let comparableCurrenciesVC = ComparableCurrenciesListViewController.init(viewModel: viewModel)
             self.show(comparableCurrenciesVC!, sender: nil)
         }

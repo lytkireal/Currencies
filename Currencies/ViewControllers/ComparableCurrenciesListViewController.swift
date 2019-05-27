@@ -57,10 +57,6 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     
     // MARK: - TableView delegate
     
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        return indexPath
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.userPressed(at: indexPath)
     }
