@@ -8,9 +8,23 @@
 
 import Foundation
 
-class ComparableCurrenciesListViewModel {
+enum CurrenciesListViewModelModes  {
+    case allRates
+    case converter
+}
+
+struct CurrencyListCellViewModel {
+    let titleText: String
+    let decriptionText: String
+    var value: String
+    var isSelected: Bool
+}
+
+class CurrenciesListViewModel {
     
     // MARK: - Properties
+    
+    let apiService: APIServiceProtocol
     
     private var currencies: [Currency] = [] {
         didSet {
@@ -46,10 +60,11 @@ class ComparableCurrenciesListViewModel {
     
     var selectedCurrency: Currency?
     
-    var reloadTableViewClosure: ( () -> Void )?
-    var updateLoadingStatusClosure: ( () -> Void )?
-    var showAlertClosure: ( () -> Void )?
-    var updateCurrenciesValuesLabelsClosure: ( () -> Void )?
+    var reloadTableViewClosure: EmptyClosure?
+    var updateLoadingStatusClosure: EmptyClosure?
+    var showAlertClosure: EmptyClosure?
+    var updateCurrenciesValuesLabelsClosure: EmptyClosure?
+    var showComparableCurrenciesScreen: EmptyClosure?
     var moveCellToTopClosure: ( ( _ indexPath: IndexPath ) -> Void )?
     var tapOnCellClosure: ( ( _ selectedCells: [IndexPath] ) -> Void )?
     
@@ -74,22 +89,24 @@ class ComparableCurrenciesListViewModel {
     
     // MARK: - Lifecycle
     
-    init(currencies: [Currency]) {
-        self.currencies = currencies
+    init(apiService: APIServiceProtocol = APIService()) {
+        self.apiService = apiService
     }
     
     // MARK: - Public
     
-    func createCellViewModel(currency: Currency) -> CurrencyListCellViewModel {
-        let titleText = currency.shortName
-        let value = String(format: "%.2f", currency.coefficient).replacingOccurrences(of: ".", with: ",")
-        
-        return CurrencyListCellViewModel(titleText: titleText,
-                                         decriptionText: currency[currency.shortName] ?? "",
-                                         value: value)
+    public func userPressed(at indexPath: IndexPath) {
+        currencies[indexPath.row].isSelected = true
+        showComparableCurrenciesScreen?()
     }
     
-    func getCellViewModel(at indexPath: IndexPath) -> CurrencyListCellViewModel {
+    public func initFetch() {
+        apiService.loadCurrenciesList { currencies in
+            self.processFetchedCurrencies(currencies: currencies)
+        }
+    }
+    
+    public func getCellViewModel(at indexPath: IndexPath) -> CurrencyListCellViewModel {
         
         var cellViewModel = cellViewModels[indexPath.row]
         
@@ -98,6 +115,10 @@ class ComparableCurrenciesListViewModel {
         } 
         
         return cellViewModel
+    }
+    
+    public func getModelForComparableCurrenciesListVC() -> ComparableCurrenciesListViewModel {
+        return ComparableCurrenciesListViewModel(currencies: currencies)
     }
     
     // MARK: - Private
@@ -110,7 +131,8 @@ class ComparableCurrenciesListViewModel {
             let currencyLongName = currency[currency.shortName] ?? ""
             let currencyListCellViewModel = CurrencyListCellViewModel(titleText: currency.shortName,
                                                                       decriptionText: currencyLongName,
-                                                                      value: "0")
+                                                                      value: "0",
+                                                                      isSelected: currency.isSelected)
             cellViewModels.append(currencyListCellViewModel)
         }
         self.cellViewModels = cellViewModels
@@ -123,12 +145,6 @@ class ComparableCurrenciesListViewModel {
             amountOfMoneyInEuro += amountOfMoneyInEuro * selectedCurrencyValueExchangingInPercentage
         }
     }
-}
-
-struct CurrencyListCellViewModel {
-    let titleText: String
-    let decriptionText: String
-    var value: String
 }
 
 

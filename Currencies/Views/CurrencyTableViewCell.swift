@@ -62,6 +62,8 @@ class CurrencyTableViewCell: UITableViewCell, UITextFieldDelegate {
         shortNameLabel?.text = cellModel.titleText
         longNameLabel?.text = cellModel.decriptionText
         currencyIdentifier = cellModel.titleText
+        isHighlighted = cellModel.isSelected
+        isSelected = cellModel.isSelected
     }
     
     // MARK: - Static

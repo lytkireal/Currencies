@@ -8,7 +8,17 @@
 
 import UIKit
 
+
+
 class ComparableCurrenciesListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CurrencyTableViewCellDelegate {
+
+    static func `init`(viewModel: ComparableCurrenciesListViewModel) -> ComparableCurrenciesListViewController? {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: String(describing: ComparableCurrenciesListViewController.self)) as? ComparableCurrenciesListViewController
+        vc?.viewModel = viewModel
+        vc?.initViewModel()
+        return vc
+    }
     
     // MARK: - IBOutlets
     
@@ -16,18 +26,10 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     
     // MARK: - Properties
     
-    private let viewModel: ComparableCurrenciesListViewModel
+    private var viewModel: ComparableCurrenciesListViewModel!
     
     // MARK: - Lifecycle
     
-    init(viewModel: ComparableCurrenciesListViewModel) {
-        self.viewModel = viewModel
-        super.init()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     // MARK: - View Lifecycle
     
@@ -35,8 +37,6 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
         super.viewDidLoad()
         
         tableView.keyboardDismissMode = .onDrag
-        
-        initViewModel()
     }
     
     // MARK: - Table View Data Source
@@ -59,6 +59,8 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
         currencyCell.configureWithCellModel(cellModel)
         currencyCell.delegate = self
         
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        
         return currencyCell
     }
     
@@ -79,7 +81,7 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
         //      return
         //  }
         
-        //viewModel.userPressed(at: indexPath)
+        viewModel.userPressed(at: indexPath)
     }
     
     // MARK: - CurrencyTableViewCellDelegate
@@ -95,83 +97,13 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     // MARK: - Helpers
     
     private func initViewModel() {
-        // 1 - showAlertClosure
+        // * showAlertClosure
         viewModel.showAlertClosure = { [weak self] in
             DispatchQueue.main.async {
                 if let message = self?.viewModel.alertMessage {
                     self?.showAlert( message )
                 }
             }
-        }
-        
-        // 2 - updateLoadingStatus
-        viewModel.updateLoadingStatusClosure = { [weak self] in
-            DispatchQueue.main.async {
-                let isLoading = self?.viewModel.isLoading ?? false
-                if isLoading {
-                    //self?.activityView.startAnimating()
-                    UIView.animate(withDuration: 0.2, animations: {
-                        //self?.tableView.alpha = 0.0
-                    })
-                } else {
-                    //self?.activityView.stopAnimating()
-                    UIView.animate(withDuration: 0.2, animations: {
-                        //self?.tableView.alpha = 1.0
-                    })
-                }
-            }
-        }
-        
-        // 3 - reloadTableViewClosure
-        viewModel.reloadTableViewClosure = { [weak self] in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
-        
-        // 4 - tapOnCellClosure
-        
-        viewModel.tapOnCellClosure = { [weak self] selectedCells in
-            
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
-                self.show(self, sender: nil)
-                //selectedCells.forEach {
-                //                    self?.tableView.selectRow(at: $0, animated: false, scrollPosition: .none)
-                //              }
-            }
-        }
-        
-        // 5 - moveCellToTopClosure
-        viewModel.moveCellToTopClosure = { [weak self] (indexPath: IndexPath) in
-            let topRowIndexPath = IndexPath(row: 0, section: 0)
-            
-            // *
-            CATransaction.begin()
-            CATransaction.setCompletionBlock {
-                
-                UIView.animate(withDuration: 0.3, animations: {
-                    self?.tableView.scrollToRow(at: topRowIndexPath, at: .top, animated: false)
-                    
-                }, completion: { (_) in
-                    if let currencyCell = self?.tableView.cellForRow(at: topRowIndexPath) as? CurrencyTableViewCell {
-                        //currencyCell.inputActivate()
-                    }
-                })
-                
-            }
-            
-            // **
-            self?.tableView.beginUpdates()
-            // Move a cell to the top of a table view:
-            self?.tableView.moveRow(at: indexPath, to: topRowIndexPath)
-            self?.tableView.endUpdates()
-            
-            // **
-            
-            CATransaction.commit()
-            // *
         }
     }
     

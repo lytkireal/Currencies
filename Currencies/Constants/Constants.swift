@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias EmptyClosure = () -> Void
+
 struct Network {
     static let host = "https://revolut.duckdns.org"
 }

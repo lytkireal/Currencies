@@ -60,26 +60,9 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
     
     // MARK: - TableView delegate
     
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        
-       // guard viewModel.isAllowToTapOnCell else {
-         //   return nil
-       // }
-        
-        return indexPath
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-      //  guard viewModel.isAllowToTapOnCell else {
-      //      return
-      //  }
-        
         self.viewModel.userPressed(at: indexPath)
-        
-        let viewModel = self.viewModel.getModelForComparableCurrenciesListVC()
-        let comparableCurrenciesVC = ComparableCurrenciesListViewController(viewModel: viewModel)
-        comparableCurrenciesVC.performSegue(withIdentifier: "ComparableVCSegue", sender: self)
     }
     
     // MARK: - CurrencyTableViewCellDelegate
@@ -172,6 +155,15 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
             
             CATransaction.commit()
             // *
+        }
+        
+        // 6 -
+        viewModel.showComparableCurrenciesScreen = { [weak self] in
+            guard let self = self else { return }
+            
+            let viewModel = self.viewModel.getModelForComparableCurrenciesListVC()
+            let comparableCurrenciesVC = ComparableCurrenciesListViewController.init(viewModel: viewModel)
+            self.show(comparableCurrenciesVC!, sender: nil)
         }
         
         viewModel.initFetch()

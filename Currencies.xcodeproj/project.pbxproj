@@ -74,6 +74,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B10D86D229BC1AC00E3EDFE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1BCE3CBF2298007100CC9D24 /* CurrenciesListViewModel.swift */,
+				D0143E7C229ACE5900687A68 /* ComparableCurrenciesListViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		1B17BC0722980342007E7BE3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,7 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				1BCE3CB72297EAF100CC9D24 /* AppLaunching */,
-				1BCE3CB82297EB0800CC9D24 /* Modules */,
+				1B10D86D229BC1AC00E3EDFE /* ViewModels */,
+				1BCE3CB82297EB0800CC9D24 /* ViewControllers */,
 				1B17BC0C2298036F007E7BE3 /* Constants */,
 				1B17BC0A2298036F007E7BE3 /* Model */,
 				1B17BC0722980342007E7BE3 /* Service */,
@@ -150,16 +160,14 @@
 			path = AppLaunching;
 			sourceTree = "<group>";
 		};
-		1BCE3CB82297EB0800CC9D24 /* Modules */ = {
+		1BCE3CB82297EB0800CC9D24 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				1BCE3C992297EAD500CC9D24 /* PairsViewController.swift */,
 				1BCE3CBE2298007100CC9D24 /* CurrenciesListViewController.swift */,
-				1BCE3CBF2298007100CC9D24 /* CurrenciesListViewModel.swift */,
 				D0143E7A229ACB1B00687A68 /* ComparableCurrenciesListViewController.swift */,
-				D0143E7C229ACE5900687A68 /* ComparableCurrenciesListViewModel.swift */,
 			);
-			path = Modules;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		1BCE3CB92297EB2800CC9D24 /* Views */ = {
