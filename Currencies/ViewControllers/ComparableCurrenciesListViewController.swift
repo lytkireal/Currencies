@@ -12,14 +12,6 @@ import UIKit
 
 class ComparableCurrenciesListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    static func `init`(viewModel: ComparableCurrenciesListViewModel) -> ComparableCurrenciesListViewController? {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: String(describing: ComparableCurrenciesListViewController.self)) as? ComparableCurrenciesListViewController
-        vc?.viewModel = viewModel
-        vc?.initViewModel()
-        return vc
-    }
-    
     // MARK: - IBOutlets
     
     @IBOutlet weak var tableView: UITableView!
@@ -30,13 +22,12 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     
     // MARK: - Lifecycle
     
-    
-    // MARK: - View Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        tableView.keyboardDismissMode = .onDrag
+    static func `init`(viewModel: ComparableCurrenciesListViewModel) -> ComparableCurrenciesListViewController? {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: String(describing: ComparableCurrenciesListViewController.self)) as? ComparableCurrenciesListViewController
+        vc?.viewModel = viewModel
+        vc?.initViewModel()
+        return vc
     }
     
     // MARK: - Table View Data Source

@@ -30,8 +30,6 @@ class CurrenciesListViewModel {
         didSet {
             if oldValue.count != currencies.count {
                 reloadTableViewClosure?()
-            } else {
-                updateCurrenciesValuesLabelsClosure?()
             }
         }
     }
@@ -39,12 +37,6 @@ class CurrenciesListViewModel {
     private var cellViewModels: [CurrencyListCellViewModel] = [] {
         didSet {
             reloadTableViewClosure?()
-        }
-    }
-    
-    var isLoading: Bool = false {
-        didSet {
-            updateLoadingStatusClosure?()
         }
     }
     
@@ -61,12 +53,8 @@ class CurrenciesListViewModel {
     var selectedCurrency: Currency?
     
     var reloadTableViewClosure: EmptyClosure?
-    var updateLoadingStatusClosure: EmptyClosure?
     var showAlertClosure: EmptyClosure?
-    var updateCurrenciesValuesLabelsClosure: EmptyClosure?
     var showComparableCurrenciesScreen: EmptyClosure?
-    var moveCellToTopClosure: ( ( _ indexPath: IndexPath ) -> Void )?
-    var tapOnCellClosure: ( ( _ selectedCells: [IndexPath] ) -> Void )?
     
     var timer = Timer()
     
@@ -107,12 +95,7 @@ class CurrenciesListViewModel {
     }
     
     public func getCellViewModel(at indexPath: IndexPath) -> CurrencyListCellViewModel {
-        
-        var cellViewModel = cellViewModels[indexPath.row]
-        
-        if mode == .converter {
-            //cellViewModel.value = String(format: "%.2f", currencies[indexPath.row].coefficient * amountOfMoneyInEuro).replacingOccurrences(of: ".", with: ",")
-        } 
+        let cellViewModel = cellViewModels[indexPath.row]
         
         return cellViewModel
     }
@@ -136,14 +119,6 @@ class CurrenciesListViewModel {
             cellViewModels.append(currencyListCellViewModel)
         }
         self.cellViewModels = cellViewModels
-    }
-    
-    func changeAmountOfMoneyWithNewValues( old: Double, new: Double ) {
-        if mode == .converter {
-            let selectedCurrencyValueExchangingInPercentage = ( new - old ) / ( old )
-            print(selectedCurrencyValueExchangingInPercentage)
-            amountOfMoneyInEuro += amountOfMoneyInEuro * selectedCurrencyValueExchangingInPercentage
-        }
     }
 }
 

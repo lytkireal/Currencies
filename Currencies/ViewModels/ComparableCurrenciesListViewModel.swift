@@ -25,10 +25,9 @@ class ComparableCurrenciesListViewModel {
         return currencies.count
     }
     
-    var selectedCurrency: Currency?
+    //var selectedCurrency: Currency?
     
     var showAlertClosure: EmptyClosure?
-    var updateCurrenciesValuesLabelsClosure: EmptyClosure?
     
     var timer = Timer()
     
