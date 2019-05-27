@@ -53,7 +53,7 @@ class CurrenciesListViewModel {
     
     // MARK: - Lifecycle
     
-    init(apiService: APIServiceProtocol = APIService()) {
+    init(apiService: APIServiceProtocol = CurrenciesService()) {
         self.apiService = apiService
     }
     
@@ -65,8 +65,15 @@ class CurrenciesListViewModel {
     }
     
     public func initFetch() {
-        apiService.loadCurrenciesList { currencies in
-            self.processFetchedCurrencies(currencies: currencies)
+        apiService.loadCurrenciesList { [weak self] currencies, error in
+            
+            guard error == nil,
+                let unwrappedCurrencies = currencies else {
+                
+                    self?.alertMessage = error.debugDescription
+                    return
+            }
+            self?.processFetchedCurrencies(currencies: unwrappedCurrencies)
         }
     }
     

@@ -10,11 +10,16 @@ import UIKit
 
 class PairsViewController: UITabBarController {
 
+    lazy var viewModel: PairsViewModel = {
+        return PairsViewModel()
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.tabBar.isHidden = true
-        selectedIndex = 1
+        
+        viewModel.initFetch()
     }
     
     @IBAction func done(segue: UIStoryboardSegue) {

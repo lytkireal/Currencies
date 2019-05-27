@@ -14,14 +14,16 @@ enum APIError: String, Error {
 }
 
 protocol APIServiceProtocol {
-    func fetchCurrenciesList(currencyName: String, completion: @escaping (_ currencies: [Currency]?, _ error: APIError?) -> Void)
-    
-    func loadCurrenciesList(completion: @escaping (_ currencies: [Currency]) -> Void)
+    func loadCurrenciesList(completion: @escaping (_ currencies: [Currency]?, _ error: APIError?) -> Void)
 }
 
-class APIService: APIServiceProtocol {
+protocol PairsServiceProtocol {
+    func fetchPairsList(pairName: String, completion: @escaping (_ pairs: [String: Float]?, _ error: APIError?) -> Void)
+}
+
+class CurrenciesService: APIServiceProtocol {
     
-    func loadCurrenciesList(completion: @escaping (_ currencies: [Currency]) -> Void) {
+    func loadCurrenciesList(completion: @escaping (_ currencies: [Currency]?, _ error: APIError?) -> Void) {
         if let url = Bundle.main.url(forResource: "currencies", withExtension: "json") {
             do {
                 let data = try Data(contentsOf: url)
@@ -32,16 +34,27 @@ class APIService: APIServiceProtocol {
                     return Currency(shortName: $0)
                 }
                 
-                completion(currencies)
+                completion(currencies, nil)
             } catch {
-                print(error)
+                if let err = error as NSError? {
+                    if err.code == 499 {
+                        completion(nil, APIError.invalidSessionResponse)
+                    } else {
+                        completion(nil, APIError.noNetwork)
+                    }
+                }
             }
         }
     }
     
-    func fetchCurrenciesList(currencyName: String, completion: @escaping (_ currencies: [Currency]?, _ error: APIError?) -> Void) {
+
+}
+
+class PairsService: PairsServiceProtocol {
+    
+    func fetchPairsList(pairName: String, completion: @escaping (_ pairs: [String: Float]?, _ error: APIError?) -> Void) {
         
-        let urlString = Network.host + "/latest?base=\(currencyName)"
+        let urlString = Network.host + "?pairs=\(pairName)"
         
         let url = URL(string: urlString)
         
@@ -64,43 +77,4 @@ class APIService: APIServiceProtocol {
         
         task.resume()
     }
-        
-//        Alamofire.request(urlString,
-//                          method: .get,
-//                          parameters: ["base": currencyName],
-//                          headers: nil)
-//            .validate()
-//            .responseJSON { (response) in
-//                guard response.result.isSuccess,
-//                    let value = response.result.value else {
-//
-//                        if let error = response.result.error as? AFError, error.responseCode == 499 {
-//                            completion(nil, APIError.invalidSessionResponse)
-//                        } else {
-//                            completion(nil, APIError.noNetwork)
-//                        }
-//
-//                        return
-//                }
-//
-//                var currenciesList: [Currency] = JSON(value)["rates"].map { json in
-//
-//                    var currency = Currency(shortName: json.0, longName: nil, coefficient: json.1.doubleValue)
-//
-//                    for (key, value) in Constants.currencyShortAndLongNameChains {
-//                        if currency.shortName == key {
-//                            currency.longName = value
-//                        }
-//                    }
-//
-//                    return currency
-//                }
-//
-//                let euroCurrency = Currency(shortName: currencyName, longName: Constants.currencyShortAndLongNameChains[currencyName], coefficient: 1)
-//                currenciesList.insert(euroCurrency, at: 0)
-//
-//                completion(currenciesList, nil)
-//        }
-//
-//    }
 }
