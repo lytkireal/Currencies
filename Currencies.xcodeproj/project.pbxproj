@@ -12,8 +12,9 @@
 		1B17BC0E2298036F007E7BE3 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B17BC0B2298036F007E7BE3 /* Currency.swift */; };
 		1B17BC0F2298036F007E7BE3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B17BC0D2298036F007E7BE3 /* Constants.swift */; };
 		1B17BC1122980856007E7BE3 /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 1B17BC1022980856007E7BE3 /* currencies.json */; };
+		1B80DF59229C12A200816092 /* PairsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B80DF58229C12A200816092 /* PairsViewController.swift */; };
 		1BCE3C982297EAD500CC9D24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BCE3C972297EAD500CC9D24 /* AppDelegate.swift */; };
-		1BCE3C9A2297EAD500CC9D24 /* PairsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BCE3C992297EAD500CC9D24 /* PairsViewController.swift */; };
+		1BCE3C9A2297EAD500CC9D24 /* EmptyPairsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BCE3C992297EAD500CC9D24 /* EmptyPairsViewController.swift */; };
 		1BCE3C9D2297EAD500CC9D24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1BCE3C9B2297EAD500CC9D24 /* Main.storyboard */; };
 		1BCE3C9F2297EAD700CC9D24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BCE3C9E2297EAD700CC9D24 /* Assets.xcassets */; };
 		1BCE3CA22297EAD700CC9D24 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1BCE3CA02297EAD700CC9D24 /* LaunchScreen.storyboard */; };
@@ -40,9 +41,10 @@
 		1B17BC0B2298036F007E7BE3 /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		1B17BC0D2298036F007E7BE3 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1B17BC1022980856007E7BE3 /* currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = currencies.json; sourceTree = "<group>"; };
+		1B80DF58229C12A200816092 /* PairsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairsViewController.swift; sourceTree = "<group>"; };
 		1BCE3C942297EAD500CC9D24 /* Currencies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Currencies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BCE3C972297EAD500CC9D24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1BCE3C992297EAD500CC9D24 /* PairsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairsViewController.swift; sourceTree = "<group>"; };
+		1BCE3C992297EAD500CC9D24 /* EmptyPairsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyPairsViewController.swift; sourceTree = "<group>"; };
 		1BCE3C9C2297EAD500CC9D24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1BCE3C9E2297EAD700CC9D24 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BCE3CA12297EAD700CC9D24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -163,7 +165,8 @@
 		1BCE3CB82297EB0800CC9D24 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				1BCE3C992297EAD500CC9D24 /* PairsViewController.swift */,
+				1B80DF58229C12A200816092 /* PairsViewController.swift */,
+				1BCE3C992297EAD500CC9D24 /* EmptyPairsViewController.swift */,
 				1BCE3CBE2298007100CC9D24 /* CurrenciesListViewController.swift */,
 				D0143E7A229ACB1B00687A68 /* ComparableCurrenciesListViewController.swift */,
 			);
@@ -306,7 +309,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BCE3CC02298007100CC9D24 /* CurrenciesListViewController.swift in Sources */,
-				1BCE3C9A2297EAD500CC9D24 /* PairsViewController.swift in Sources */,
+				1B80DF59229C12A200816092 /* PairsViewController.swift in Sources */,
+				1BCE3C9A2297EAD500CC9D24 /* EmptyPairsViewController.swift in Sources */,
 				1BCE3C982297EAD500CC9D24 /* AppDelegate.swift in Sources */,
 				1B17BC06229802CD007E7BE3 /* CurrencyTableViewCell.swift in Sources */,
 				1B17BC0922980342007E7BE3 /* APIService.swift in Sources */,

@@ -44,7 +44,6 @@ class ComparableCurrenciesListViewModel {
     
     public func userPressed(at indexPath: IndexPath) {
         secondCurrencyInPair = currencies[indexPath.row]
-        
     }
     
     public func getCellViewModel(at indexPath: IndexPath) -> CurrencyListCellViewModel {

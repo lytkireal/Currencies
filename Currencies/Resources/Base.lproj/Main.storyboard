@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aFa-WQ-QVx">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -9,16 +9,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Pairs View Controller-->
+        <!--Item-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="PairsViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="EmptyPairsViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G2n-F1-RrH">
-                                <rect key="frame" x="63" y="234" width="194" height="100"/>
+                                <rect key="frame" x="75" y="234" width="170" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="L9e-vh-r0F"/>
                                 </constraints>
@@ -54,12 +54,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="NiW-ak-Hbp"/>
+                    <navigationItem key="navigationItem" id="yfo-y2-OVN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="37.681159420289859" y="18.75"/>
+            <point key="canvasLocation" x="3030" y="17.95774647887324"/>
         </scene>
-        <!--Currencies List View Controller-->
+        <!--Currencies-->
         <scene sceneID="zh1-oZ-ksy">
             <objects>
                 <viewController storyboardIdentifier="CurrenciesListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zfr-Yq-MSD" customClass="CurrenciesListViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
@@ -68,7 +70,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TNw-he-Lui">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CurrencyTableViewCell" rowHeight="56" id="lTM-z2-OWQ" customClass="CurrencyTableViewCell" customModule="Currencies" customModuleProvider="target">
@@ -119,36 +121,38 @@
                                     <outlet property="delegate" destination="zfr-Yq-MSD" id="OpD-Cq-7kS"/>
                                 </connections>
                             </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VW4-91-kel">
-                                <rect key="frame" x="150" y="274" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="VW4-91-kel" firstAttribute="centerX" secondItem="gSh-It-ova" secondAttribute="centerX" id="2uJ-B9-jgI"/>
                             <constraint firstItem="thQ-K7-95n" firstAttribute="bottom" secondItem="TNw-he-Lui" secondAttribute="bottom" id="BF9-Yu-bBX"/>
-                            <constraint firstItem="VW4-91-kel" firstAttribute="centerY" secondItem="gSh-It-ova" secondAttribute="centerY" id="ED2-Tt-y7I"/>
                             <constraint firstItem="TNw-he-Lui" firstAttribute="trailing" secondItem="thQ-K7-95n" secondAttribute="trailing" id="HCv-z6-0qb"/>
                             <constraint firstItem="TNw-he-Lui" firstAttribute="top" secondItem="thQ-K7-95n" secondAttribute="top" id="QSf-r0-Bl0"/>
                             <constraint firstItem="TNw-he-Lui" firstAttribute="leading" secondItem="thQ-K7-95n" secondAttribute="leading" id="cZi-R5-lCD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="thQ-K7-95n"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ZQu-Yr-HFz"/>
+                    <navigationItem key="navigationItem" title="Currencies" id="ZQu-Yr-HFz">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="BBc-fV-ppf">
+                            <connections>
+                                <action selector="cancelTapped:" destination="zfr-Yq-MSD" id="WI8-zK-igg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="TNw-he-Lui" id="1z9-Nn-JKx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9LC-C8-HM8" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1987.5" y="17.95774647887324"/>
+            <point key="canvasLocation" x="4957.5" y="17.95774647887324"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Z4r-ac-Myj">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="pE6-4R-5LF" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pE6-4R-5LF" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tsE-dk-pYu">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -158,12 +162,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eSg-QL-HOS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="990" y="17.95774647887324"/>
+            <point key="canvasLocation" x="3982.5" y="17.95774647887324"/>
         </scene>
-        <!--Comparable Currencies List View Controller-->
+        <!--Comparable currencies-->
         <scene sceneID="M34-aY-aH4">
             <objects>
-                <viewController storyboardIdentifier="ComparableCurrenciesListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ime-Mi-1Ut" customClass="ComparableCurrenciesListViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComparableCurrenciesListViewController" title="Comparable currencies" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ime-Mi-1Ut" customClass="ComparableCurrenciesListViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1iY-25-Q8V">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -212,6 +216,7 @@
                                             <outlet property="currencyImageView" destination="YGe-1Q-hfz" id="b63-c9-qWI"/>
                                             <outlet property="longNameLabel" destination="aHR-nd-kXA" id="opw-hV-Yrp"/>
                                             <outlet property="shortNameLabel" destination="9b5-xc-3jn" id="IHA-pb-CjN"/>
+                                            <segue destination="9jk-BP-0eF" kind="unwind" unwindAction="doneWithSegue:" id="lqG-rw-fu6"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -230,14 +235,32 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ry1-zC-PV7"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Uwo-Wm-ogH"/>
+                    <navigationItem key="navigationItem" title="Comparable currencies" id="Uwo-Wm-ogH"/>
                     <connections>
                         <outlet property="tableView" destination="COx-cg-OI9" id="evZ-Qi-kiZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XYh-ha-EHB" sceneMemberID="firstResponder"/>
+                <exit id="9jk-BP-0eF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2831" y="18"/>
+            <point key="canvasLocation" x="5887.5" y="17.95774647887324"/>
+        </scene>
+        <!--Pairs View Controller-->
+        <scene sceneID="c18-pD-qRE">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="aFa-WQ-QVx" customClass="PairsViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Kpv-zz-SuK">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="9ia-Vj-GTG"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5s9-Jb-Zjr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2032.5" y="17.95774647887324"/>
         </scene>
     </scenes>
     <resources>

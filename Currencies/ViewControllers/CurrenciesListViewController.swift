@@ -27,6 +27,18 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
         initViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel.initFetch()
+    }
+    
+    // MARK: - User Interaction
+    
+    @IBAction func cancelTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Table View Data Source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -80,8 +92,6 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
             let comparableCurrenciesVC = ComparableCurrenciesListViewController.init(viewModel: viewModel)
             self.show(comparableCurrenciesVC!, sender: nil)
         }
-        
-        viewModel.initFetch()
     }
     
     private func showAlert( _ message: String) {

@@ -30,6 +30,8 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
         return vc
     }
     
+    // MARK: - View Lifecycle
+
     // MARK: - Table View Data Source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
