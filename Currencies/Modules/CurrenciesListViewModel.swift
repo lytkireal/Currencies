@@ -87,13 +87,17 @@ class CurrenciesListViewModel {
     
     // MARK: - Public
     
-    func initFetch() {
+    public func userPressed(at indexPath: IndexPath) {
+        currencies[indexPath.row].selected = true
+    }
+    
+    public func initFetch() {
         apiService.loadCurrenciesList { currencies in
             self.processFetchedCurrencies(currencies: currencies)
         }
     }
     
-    func createCellViewModel(currency: Currency) -> CurrencyListCellViewModel {
+    public func createCellViewModel(currency: Currency) -> CurrencyListCellViewModel {
         let titleText = currency.shortName
         let value = String(format: "%.2f", currency.coefficient).replacingOccurrences(of: ".", with: ",")
         
@@ -102,7 +106,7 @@ class CurrenciesListViewModel {
                                          value: value)
     }
     
-    func getCellViewModel(at indexPath: IndexPath) -> CurrencyListCellViewModel {
+    public func getCellViewModel(at indexPath: IndexPath) -> CurrencyListCellViewModel {
         
         var cellViewModel = cellViewModels[indexPath.row]
         
@@ -111,6 +115,10 @@ class CurrenciesListViewModel {
         } 
         
         return cellViewModel
+    }
+    
+    public func getModelForComparableCurrenciesListVC() -> ComparableCurrenciesListViewModel {
+        return ComparableCurrenciesListViewModel(currencies: currencies)
     }
     
     // MARK: - Private
@@ -135,12 +143,6 @@ class CurrenciesListViewModel {
             print(selectedCurrencyValueExchangingInPercentage)
             amountOfMoneyInEuro += amountOfMoneyInEuro * selectedCurrencyValueExchangingInPercentage
         }
-    }
-}
-
-extension ComparableCurrenciesListViewModel {
-    func userPressed(at indexPath: IndexPath) {
-        
     }
 }
 

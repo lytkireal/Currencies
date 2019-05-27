@@ -111,7 +111,7 @@
                                             <outlet property="currencyImageView" destination="d2E-lN-ceU" id="geB-j1-VUH"/>
                                             <outlet property="longNameLabel" destination="0dh-Kt-mPU" id="wMA-E4-gHi"/>
                                             <outlet property="shortNameLabel" destination="vbj-Qy-cgH" id="c2u-zD-N4K"/>
-                                            <segue destination="Ime-Mi-1Ut" kind="show" id="4PJ-lk-LpF"/>
+                                            <segue destination="Ime-Mi-1Ut" kind="show" identifier="ComprableVCSegue" id="4PJ-lk-LpF"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

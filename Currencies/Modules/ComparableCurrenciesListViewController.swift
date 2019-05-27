@@ -16,11 +16,21 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     
     // MARK: - Properties
     
-    lazy var viewModel: ComparableCurrenciesListViewModel = {
-        return ComparableCurrenciesListViewModel(currencies: <#[Currency]#>)
-    }()
+    private let viewModel: ComparableCurrenciesListViewModel
+    
+    // MARK: - Lifecycle
+    
+    init(viewModel: ComparableCurrenciesListViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,7 +79,7 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
         //      return
         //  }
         
-        viewModel.userPressed(at: indexPath)
+        //viewModel.userPressed(at: indexPath)
     }
     
     // MARK: - CurrencyTableViewCellDelegate
@@ -163,8 +173,6 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
             CATransaction.commit()
             // *
         }
-        
-        viewModel.initFetch()
     }
     
     private func showAlert( _ message: String) {

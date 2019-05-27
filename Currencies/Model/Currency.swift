@@ -16,6 +16,7 @@ struct Currency: Equatable {
     
     var shortName: String
     var coefficient: Double
+    var selected: Bool = false
     
     init(shortName: String, coefficient: Double = 0) {
         self.shortName = shortName

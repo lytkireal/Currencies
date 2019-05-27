@@ -31,7 +31,7 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let comparableCurrenciesVC = segue.destination as? ComparableCurrenciesListViewController {
-            comparableCurrenciesVC.viewModel = ComparableCurrenciesListViewModel
+            
         }
     }
     
@@ -75,7 +75,11 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
       //      return
       //  }
         
-        viewModel.userPressed(at: indexPath)
+        self.viewModel.userPressed(at: indexPath)
+        
+        let viewModel = self.viewModel.getModelForComparableCurrenciesListVC()
+        let comparableCurrenciesVC = ComparableCurrenciesListViewController(viewModel: viewModel)
+        comparableCurrenciesVC.performSegue(withIdentifier: "ComparableVCSegue", sender: self)
     }
     
     // MARK: - CurrencyTableViewCellDelegate
@@ -132,7 +136,7 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
             guard let self = self else { return }
             
             DispatchQueue.main.async {
-                self.performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
+                //self.performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
                 //selectedCells.forEach {
 //                    self?.tableView.selectRow(at: $0, animated: false, scrollPosition: .none)
   //              }

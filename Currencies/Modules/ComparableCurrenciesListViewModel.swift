@@ -12,8 +12,6 @@ class ComparableCurrenciesListViewModel {
     
     // MARK: - Properties
     
-    let apiService: APIServiceProtocol
-    
     private var currencies: [Currency] = [] {
         didSet {
             if oldValue.count != currencies.count {
@@ -82,12 +80,6 @@ class ComparableCurrenciesListViewModel {
     
     // MARK: - Public
     
-    func initFetch() {
-        apiService.loadCurrenciesList { currencies in
-            self.processFetchedCurrencies(currencies: currencies)
-        }
-    }
-    
     func createCellViewModel(currency: Currency) -> CurrencyListCellViewModel {
         let titleText = currency.shortName
         let value = String(format: "%.2f", currency.coefficient).replacingOccurrences(of: ".", with: ",")
@@ -130,12 +122,6 @@ class ComparableCurrenciesListViewModel {
             print(selectedCurrencyValueExchangingInPercentage)
             amountOfMoneyInEuro += amountOfMoneyInEuro * selectedCurrencyValueExchangingInPercentage
         }
-    }
-}
-
-extension CurrenciesListViewModel {
-    func userPressed(at indexPath: IndexPath) {
-        
     }
 }
 
