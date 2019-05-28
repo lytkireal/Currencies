@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PairsFetcher {
+    func fetchPair(first: Currency, second: Currency)
+}
+
 class PairsViewController: UITabBarController {
 
     lazy var viewModel: PairsViewModel = {
@@ -25,5 +29,12 @@ class PairsViewController: UITabBarController {
     @IBAction func done(segue: UIStoryboardSegue) {
         print(segue.source)
         print(segue.destination)
+    }
+}
+
+extension PairsViewController: PairsFetcher {
+    func fetchPair(first: Currency, second: Currency) {
+        print("first: \(first)")
+        print("second: \(second)")
     }
 }
