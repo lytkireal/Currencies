@@ -55,7 +55,7 @@ class ComparableCurrenciesListViewModel {
         return cellViewModel
     }
     
-    public func sendPairsSegue(to viewController: UIViewController) {
+    public func calledSegue(to viewController: UIViewController) {
         guard let pairsFetcher = viewController as? PairsFetcher,
             let secondCurrency = secondCurrencyInPair
             else { return }

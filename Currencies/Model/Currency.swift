@@ -15,12 +15,10 @@ struct Currency: Equatable {
     }
     
     var shortName: String
-    var coefficient: Double
     var isSelected: Bool = false
     
-    init(shortName: String, coefficient: Double = 0) {
+    init(shortName: String) {
         self.shortName = shortName
-        self.coefficient = coefficient
     }
     
     subscript(currencyShortName: String) -> String? {

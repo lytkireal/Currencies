@@ -52,17 +52,31 @@ class PairsViewModel {
 //        }
     }
     
-    public func fetchPairsList(pairNames: [String]) {
-        apiService.fetchPairsList(pairNames: pairNames) {[weak self] (pairs, error) in
+    public func fetchPair(first: Currency, second: Currency) {
+        let pairList = [first.shortName + second.shortName]
+        apiService.fetchPairsList(pairNames: pairList) {[weak self] (pairs, error) in
             guard error == nil,
                 let unwrappedPairs = pairs else {
                     
-                self?.alertMessage = error.debugDescription
-                return
+                    self?.alertMessage = error.debugDescription
+                    return
             }
             
             print(unwrappedPairs)
         }
+    }
+    
+    public func fetchPairsList(pairNames: [String]) {
+//        apiService.fetchPairsList(pairNames: pairNames) {[weak self] (pairs, error) in
+//            guard error == nil,
+//                let unwrappedPairs = pairs else {
+//
+//                self?.alertMessage = error.debugDescription
+//                return
+//            }
+//
+//            print(unwrappedPairs)
+//        }
     }
     
 }

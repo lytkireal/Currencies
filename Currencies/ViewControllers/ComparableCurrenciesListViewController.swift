@@ -66,7 +66,7 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        viewModel.sendPairsSegue(to: segue.destination)
+        viewModel.calledSegue(to: segue.destination)
     }
     
     // MARK: - Helpers
@@ -75,7 +75,8 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
         
         // * sendPairsClosure
         viewModel.sendPairsClosure = { [weak self] in
-            // This segue is declared in PairsViewController.swift
+            // This segue is declared in PairsViewController.swift;
+            // You can find its identifier in Main.storyboard -> Document Outline -> Comparable currencies Scene -> Unwind segue at bottom.
             self?.performSegue(withIdentifier: "BackToPairsScreenSegue", sender: nil)
         }
         

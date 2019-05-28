@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B01807D229D771E003A2ECF /* Pair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B01807C229D771E003A2ECF /* Pair.swift */; };
 		1B17BC06229802CD007E7BE3 /* CurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B17BC05229802CD007E7BE3 /* CurrencyTableViewCell.swift */; };
 		1B17BC0922980342007E7BE3 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B17BC0822980342007E7BE3 /* APIService.swift */; };
 		1B17BC0E2298036F007E7BE3 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B17BC0B2298036F007E7BE3 /* Currency.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B01807C229D771E003A2ECF /* Pair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pair.swift; sourceTree = "<group>"; };
 		1B17BC05229802CD007E7BE3 /* CurrencyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewCell.swift; sourceTree = "<group>"; };
 		1B17BC0822980342007E7BE3 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		1B17BC0B2298036F007E7BE3 /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -81,8 +83,8 @@
 		1B10D86D229BC1AC00E3EDFE /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				1BCE3CBF2298007100CC9D24 /* CurrenciesListViewModel.swift */,
 				D01D7951229CCA7C007D4F50 /* PairsViewModel.swift */,
+				1BCE3CBF2298007100CC9D24 /* CurrenciesListViewModel.swift */,
 				D0143E7C229ACE5900687A68 /* ComparableCurrenciesListViewModel.swift */,
 			);
 			path = ViewModels;
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				1B17BC0B2298036F007E7BE3 /* Currency.swift */,
+				1B01807C229D771E003A2ECF /* Pair.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				1BCE3CC02298007100CC9D24 /* CurrenciesListViewController.swift in Sources */,
 				1B80DF59229C12A200816092 /* PairsViewController.swift in Sources */,
 				1BCE3C982297EAD500CC9D24 /* AppDelegate.swift in Sources */,
+				1B01807D229D771E003A2ECF /* Pair.swift in Sources */,
 				1B17BC06229802CD007E7BE3 /* CurrencyTableViewCell.swift in Sources */,
 				1B17BC0922980342007E7BE3 /* APIService.swift in Sources */,
 				D0143E7D229ACE5900687A68 /* ComparableCurrenciesListViewModel.swift in Sources */,

@@ -11,6 +11,7 @@ import Foundation
 enum APIError: String, Error {
     case noNetwork = "No network. Check your network settings."
     case invalidSessionResponse = "Invalid session. Try again."
+    case dataProcessingFailure = "Can't process currenies. Try later."
 }
 
 protocol APIServiceProtocol {
@@ -18,7 +19,7 @@ protocol APIServiceProtocol {
 }
 
 protocol PairsServiceProtocol {
-    func fetchPairsList(pairNames: [String], completion: @escaping (_ pairs: [String: Float]?, _ error: APIError?) -> Void)
+    func fetchPairsList(pairNames: [String], completion: @escaping (_ pairs: [Pair]?, _ error: APIError?) -> Void)
 }
 
 class CurrenciesService: APIServiceProtocol {
@@ -52,7 +53,7 @@ class CurrenciesService: APIServiceProtocol {
 
 class PairsService: PairsServiceProtocol {
     
-    func fetchPairsList(pairNames: [String], completion: @escaping (_ pairs: [String: Float]?, _ error: APIError?) -> Void) {
+    func fetchPairsList(pairNames: [String], completion: @escaping (_ pairs: [Pair]?, _ error: APIError?) -> Void) {
         
         guard let firstPair = pairNames.first else { return }
         let otherPairs = pairNames.suffix(from: 0)
@@ -78,13 +79,36 @@ class PairsService: PairsServiceProtocol {
                         completion(nil, APIError.noNetwork)
                     }
                 }
-                
                 return
             }
             
-            print(String(data: data, encoding: .utf8))
+            let decoder = JSONDecoder()
+            do {
+                let pairsData = try decoder.decode(Dictionary<String, Float>.self, from: data)
+                var pairs: [Pair] = []
+                for (pairName, coefficient) in pairsData {
+                    let pair = PairsService.makePair(from: pairName, coefficient: coefficient)
+                    pairs.append(pair)
+                }
+                completion(pairs, nil)
+            } catch {
+                completion(nil, APIError.dataProcessingFailure)
+            }
         }
         
         task.resume()
+    }
+    
+    private static func makePair(from pairName: String, coefficient: Float) -> Pair {
+        // TODO: - Take a good, short names for variables:
+        let endIndexOfMainCurrencyName = pairName.index(pairName.startIndex, offsetBy: 2)
+        let mainCurrencyName = String(pairName[pairName.startIndex...endIndexOfMainCurrencyName])
+        let startIndexOfSecondaryCurrencyName = pairName.index(after: endIndexOfMainCurrencyName)
+        let secondaryCurrencyName = String(pairName[startIndexOfSecondaryCurrencyName..<pairName.endIndex])
+        
+        let mainCurrency = Currency(shortName: mainCurrencyName)
+        let secondaryCurrency = Currency(shortName: secondaryCurrencyName)
+        
+        return Pair(main: mainCurrency, secondary: secondaryCurrency, coefficient: coefficient)
     }
 }

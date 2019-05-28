@@ -34,7 +34,6 @@ class PairsViewController: UITabBarController {
 
 extension PairsViewController: PairsFetcher {
     func fetchPair(first: Currency, second: Currency) {
-        print("first: \(first)")
-        print("second: \(second)")
+        viewModel.fetchPair(first: first, second: second)
     }
 }
