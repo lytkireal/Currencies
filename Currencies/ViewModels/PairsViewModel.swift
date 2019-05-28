@@ -8,13 +8,6 @@
 
 import Foundation
 
-struct PairsListCellViewModel {
-    let titleText: String
-    let decriptionText: String
-    var value: String
-    var isSelected: Bool
-}
-
 class PairsViewModel {
     
     let apiService: PairsServiceProtocol

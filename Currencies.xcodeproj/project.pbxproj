@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B01807D229D771E003A2ECF /* Pair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B01807C229D771E003A2ECF /* Pair.swift */; };
+		1B01807F229D7EBD003A2ECF /* ListOfPairsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B01807E229D7EBD003A2ECF /* ListOfPairsViewModel.swift */; };
 		1B17BC06229802CD007E7BE3 /* CurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B17BC05229802CD007E7BE3 /* CurrencyTableViewCell.swift */; };
 		1B17BC0922980342007E7BE3 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B17BC0822980342007E7BE3 /* APIService.swift */; };
 		1B17BC0E2298036F007E7BE3 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B17BC0B2298036F007E7BE3 /* Currency.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		1B01807C229D771E003A2ECF /* Pair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pair.swift; sourceTree = "<group>"; };
+		1B01807E229D7EBD003A2ECF /* ListOfPairsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfPairsViewModel.swift; sourceTree = "<group>"; };
 		1B17BC05229802CD007E7BE3 /* CurrencyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewCell.swift; sourceTree = "<group>"; };
 		1B17BC0822980342007E7BE3 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		1B17BC0B2298036F007E7BE3 /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				D01D7951229CCA7C007D4F50 /* PairsViewModel.swift */,
+				1B01807E229D7EBD003A2ECF /* ListOfPairsViewModel.swift */,
 				1BCE3CBF2298007100CC9D24 /* CurrenciesListViewModel.swift */,
 				D0143E7C229ACE5900687A68 /* ComparableCurrenciesListViewModel.swift */,
 			);
@@ -319,6 +322,7 @@
 				1BCE3C982297EAD500CC9D24 /* AppDelegate.swift in Sources */,
 				1B01807D229D771E003A2ECF /* Pair.swift in Sources */,
 				1B17BC06229802CD007E7BE3 /* CurrencyTableViewCell.swift in Sources */,
+				1B01807F229D7EBD003A2ECF /* ListOfPairsViewModel.swift in Sources */,
 				1B17BC0922980342007E7BE3 /* APIService.swift in Sources */,
 				D0143E7D229ACE5900687A68 /* ComparableCurrenciesListViewModel.swift in Sources */,
 				D01D7952229CCA7C007D4F50 /* PairsViewModel.swift in Sources */,
