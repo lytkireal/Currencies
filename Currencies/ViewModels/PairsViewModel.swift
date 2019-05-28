@@ -2,7 +2,7 @@
 //  PairsViewModel.swift
 //  Currencies
 //
-//  Created by Artem Lytkin on 27/05/2019.
+//  Created by macbook air on 28/05/2019.
 //  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
@@ -17,23 +17,7 @@ struct PairsListCellViewModel {
 
 class PairsViewModel {
     
-    // MARK: - Properties
-    
     let apiService: PairsServiceProtocol
-    
-    private var currencies: [Currency] = [] {
-        didSet {
-            if oldValue.count != currencies.count {
-                reloadTableViewClosure?()
-            }
-        }
-    }
-    
-    private var cellViewModels: [CurrencyListCellViewModel] = [] {
-        didSet {
-            reloadTableViewClosure?()
-        }
-    }
     
     var alertMessage: String? {
         didSet {
@@ -41,15 +25,10 @@ class PairsViewModel {
         }
     }
     
-    var numberOfCells: Int {
-        return currencies.count
-    }
-    
     // MARK: - Binding
     
     var reloadTableViewClosure: EmptyClosure?
     var showAlertClosure: EmptyClosure?
-    var showComparableCurrenciesScreen: ( (_ selectedIndexPath: IndexPath) -> Void )?
     
     // MARK: - Lifecycle
     
@@ -59,44 +38,31 @@ class PairsViewModel {
     
     // MARK: - Public
     
-    public func userPressed(at indexPath: IndexPath) {
-        currencies[indexPath.row].isSelected = true
-        showComparableCurrenciesScreen?(indexPath)
-    }
-    
     public func initFetch() {
-        apiService.fetchPairsList(pairName: "GBPUSD") { pairs, error in
-            print(pairs)
+        // TODO: - Make loading of saved currency pairs
+//        apiService.fetchPairsList(pairName: <#T##String#>, completion: <#T##([String : Float]?, APIError?) -> Void#>) { [weak self] currencies, error in
+//
+//            guard error == nil,
+//                let unwrappedCurrencies = currencies else {
+//
+//                    self?.alertMessage = error.debugDescription
+//                    return
+//            }
+//            self?.processFetchedCurrencies(currencies: unwrappedCurrencies)
+//        }
+    }
+    
+    public func fetchPairsList(pairNames: [String]) {
+        apiService.fetchPairsList(pairNames: pairNames) {[weak self] (pairs, error) in
+            guard error == nil,
+                let unwrappedPairs = pairs else {
+                    
+                self?.alertMessage = error.debugDescription
+                return
+            }
+            
+            print(unwrappedPairs)
         }
-        //apiService.fet { currencies in
-        //    self.processFetchedCurrencies(currencies: currencies)
-        //}
     }
     
-    public func getCellViewModel(at indexPath: IndexPath) -> CurrencyListCellViewModel {
-        let cellViewModel = cellViewModels[indexPath.row]
-        
-        return cellViewModel
-    }
-    
-    public func getModelForComparableCurrenciesListVC(forRowAt indexPath: IndexPath) -> ComparableCurrenciesListViewModel {
-        return ComparableCurrenciesListViewModel(currencies: currencies, comparableCurrency: currencies[indexPath.row])
-    }
-    
-    // MARK: - Private
-    
-    private func processFetchedCurrencies(currencies: [Currency]) {
-        self.currencies = currencies
-        var cellViewModels = [CurrencyListCellViewModel]()
-        
-        for currency in currencies {
-            let currencyLongName = currency[currency.shortName] ?? ""
-            let currencyListCellViewModel = CurrencyListCellViewModel(titleText: currency.shortName,
-                                                                      decriptionText: currencyLongName,
-                                                                      value: "0",
-                                                                      isSelected: currency.isSelected)
-            cellViewModels.append(currencyListCellViewModel)
-        }
-        self.cellViewModels = cellViewModels
-    }
 }

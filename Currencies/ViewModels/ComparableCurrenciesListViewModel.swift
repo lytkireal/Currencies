@@ -28,9 +28,19 @@ class ComparableCurrenciesListViewModel {
     private var firstCurrencyInPair: Currency
     private var secondCurrencyInPair: Currency?
     
+    var pair: (Currency, Currency)? {
+        get {
+            if let secondCurrency = secondCurrencyInPair {
+                return (firstCurrencyInPair, secondCurrency)
+            }
+            return nil
+        }
+    }
+    
     // MARK: - Binding
     
     var showAlertClosure: EmptyClosure?
+    var sendPairsClosure: ( (_ fetcher: PairsFetcher) -> Void )?
     
     // MARK: - Lifecycle
     

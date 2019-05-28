@@ -63,6 +63,15 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
         viewModel.userPressed(at: indexPath)
     }
     
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let pairsFetcher = segue.destination as? PairsFetcher,
+            let pair = viewModel.pair {
+            pairsFetcher.fetchPair(first: pair.0, second: pair.1)
+        }
+    }
+    
     // MARK: - Helpers
     
     private func initViewModel() {

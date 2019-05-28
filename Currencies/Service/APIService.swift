@@ -18,7 +18,7 @@ protocol APIServiceProtocol {
 }
 
 protocol PairsServiceProtocol {
-    func fetchPairsList(pairName: String, completion: @escaping (_ pairs: [String: Float]?, _ error: APIError?) -> Void)
+    func fetchPairsList(pairNames: [String], completion: @escaping (_ pairs: [String: Float]?, _ error: APIError?) -> Void)
 }
 
 class CurrenciesService: APIServiceProtocol {
@@ -52,9 +52,19 @@ class CurrenciesService: APIServiceProtocol {
 
 class PairsService: PairsServiceProtocol {
     
-    func fetchPairsList(pairName: String, completion: @escaping (_ pairs: [String: Float]?, _ error: APIError?) -> Void) {
+    func fetchPairsList(pairNames: [String], completion: @escaping (_ pairs: [String: Float]?, _ error: APIError?) -> Void) {
         
-        let urlString = Network.host + "?pairs=\(pairName)"
+        guard let firstPair = pairNames.first else { return }
+        let otherPairs = pairNames.suffix(from: 0)
+        
+        var urlString = Network.host + "?pairs=\(firstPair)"
+        
+        // Separate into characters for sum in one string at bottom
+        let pairsCharacters = otherPairs.flatMap {
+            return "&pairs=" + $0
+        }
+        let pairsString = String(pairsCharacters)
+        urlString += pairsString
         
         let url = URL(string: urlString)
         
