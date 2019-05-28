@@ -12,7 +12,7 @@
         <!--Empty-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="EmptyPairsViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -321,7 +321,6 @@
                                             <outlet property="currencyImageView" destination="YGe-1Q-hfz" id="b63-c9-qWI"/>
                                             <outlet property="longNameLabel" destination="aHR-nd-kXA" id="opw-hV-Yrp"/>
                                             <outlet property="shortNameLabel" destination="9b5-xc-3jn" id="IHA-pb-CjN"/>
-                                            <segue destination="9jk-BP-0eF" kind="unwind" unwindAction="doneWithSegue:" id="lqG-rw-fu6"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -343,6 +342,7 @@
                     <navigationItem key="navigationItem" title="Comparable currencies" id="Uwo-Wm-ogH"/>
                     <connections>
                         <outlet property="tableView" destination="COx-cg-OI9" id="evZ-Qi-kiZ"/>
+                        <segue destination="9jk-BP-0eF" kind="unwind" identifier="BackToPairsScreenSegue" unwindAction="doneWithSegue:" id="cKt-iN-CDB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XYh-ha-EHB" sceneMemberID="firstResponder"/>
@@ -374,6 +374,6 @@
         <image name="Plus" width="40" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="tju-Q1-YkT"/>
+        <segue reference="Itz-nt-3GO"/>
     </inferredMetricsTieBreakers>
 </document>

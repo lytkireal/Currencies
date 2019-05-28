@@ -61,6 +61,9 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.userPressed(at: indexPath)
+        
+        // This segue is declared in PairsViewController.swift
+        self.performSegue(withIdentifier: "BackToPairsScreenSegue", sender: nil)
     }
     
     // MARK: - Navigation
@@ -68,7 +71,10 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let pairsFetcher = segue.destination as? PairsFetcher,
             let pair = viewModel.pair {
-            pairsFetcher.fetchPair(first: pair.0, second: pair.1)
+            
+            let firstCurrency = pair.0
+            let secondCurrency = pair.1
+            pairsFetcher.fetchPair(first: firstCurrency, second: secondCurrency)
         }
     }
     
