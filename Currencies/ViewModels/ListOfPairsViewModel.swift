@@ -11,8 +11,8 @@ import Foundation
 struct PairsListCellViewModel {
     let titleText: String
     let decriptionText: String
+    let secondaryText: String
     var value: String
-    var isSelected: Bool
 }
 
 class ListOfPairsViewModel {
@@ -26,6 +26,12 @@ class ListOfPairsViewModel {
     }
     
     private var pairs: [Pair] = []
+    
+    private var cellViewModels: [PairsListCellViewModel] = [] {
+        didSet {
+            //reloadTableViewClosure?()
+        }
+    }
     
     // MARK: - Binding
     

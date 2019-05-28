@@ -10,7 +10,12 @@ import UIKit
 
 class ListOfPairsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    private var viewModel: ListOfPairsViewModel = {
+       return ListOfPairsViewModel()
+    }()
+    
     @IBOutlet weak var tableView: UITableView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
