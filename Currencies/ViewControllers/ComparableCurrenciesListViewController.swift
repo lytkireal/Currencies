@@ -61,26 +61,24 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.userPressed(at: indexPath)
-        
-        // This segue is declared in PairsViewController.swift
-        self.performSegue(withIdentifier: "BackToPairsScreenSegue", sender: nil)
     }
     
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let pairsFetcher = segue.destination as? PairsFetcher,
-            let pair = viewModel.pair {
-            
-            let firstCurrency = pair.0
-            let secondCurrency = pair.1
-            pairsFetcher.fetchPair(first: firstCurrency, second: secondCurrency)
-        }
+        viewModel.sendPairsSegue(to: segue.destination)
     }
     
     // MARK: - Helpers
     
     private func initViewModel() {
+        
+        // * sendPairsClosure
+        viewModel.sendPairsClosure = { [weak self] in
+            // This segue is declared in PairsViewController.swift
+            self?.performSegue(withIdentifier: "BackToPairsScreenSegue", sender: nil)
+        }
+        
         // * showAlertClosure
         viewModel.showAlertClosure = { [weak self] in
             DispatchQueue.main.async {

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Artem Lytkin. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class ComparableCurrenciesListViewModel {
     
@@ -28,19 +28,10 @@ class ComparableCurrenciesListViewModel {
     private var firstCurrencyInPair: Currency
     private var secondCurrencyInPair: Currency?
     
-    var pair: (Currency, Currency)? {
-        get {
-            if let secondCurrency = secondCurrencyInPair {
-                return (firstCurrencyInPair, secondCurrency)
-            }
-            return nil
-        }
-    }
-    
     // MARK: - Binding
     
     var showAlertClosure: EmptyClosure?
-    var sendPairsClosure: ( (_ fetcher: PairsFetcher) -> Void )?
+    var sendPairsClosure: EmptyClosure?
     
     // MARK: - Lifecycle
     
@@ -54,6 +45,7 @@ class ComparableCurrenciesListViewModel {
     
     public func userPressed(at indexPath: IndexPath) {
         secondCurrencyInPair = currencies[indexPath.row]
+        sendPairsClosure?()
     }
     
     public func getCellViewModel(at indexPath: IndexPath) -> CurrencyListCellViewModel {
@@ -61,6 +53,14 @@ class ComparableCurrenciesListViewModel {
         let cellViewModel = cellViewModels[indexPath.row]
         
         return cellViewModel
+    }
+    
+    public func sendPairsSegue(to viewController: UIViewController) {
+        guard let pairsFetcher = viewController as? PairsFetcher,
+            let secondCurrency = secondCurrencyInPair
+            else { return }
+
+        pairsFetcher.fetchPair(first: firstCurrencyInPair, second: secondCurrency)
     }
     
     // MARK: - Private
