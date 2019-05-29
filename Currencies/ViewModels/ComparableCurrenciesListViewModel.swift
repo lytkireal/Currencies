@@ -6,7 +6,7 @@
 //  Copyright © 2018 Artem Lytkin. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class ComparableCurrenciesListViewModel {
     
@@ -55,7 +55,7 @@ class ComparableCurrenciesListViewModel {
         return cellViewModel
     }
     
-    public func calledSegue(to viewController: UIViewController) {
+    public func calledSegue(to viewController: Any) {
         guard let pairsFetcher = viewController as? PairsFetcher,
             let secondCurrency = secondCurrencyInPair
             else { return }
@@ -67,13 +67,11 @@ class ComparableCurrenciesListViewModel {
     
     private func processFetchedCurrencies(currencies: [Currency]) {
         self.currencies = currencies
-        var cellViewModels = [CurrencyListCellViewModel]()
+        var cellViewModels: [CurrencyListCellViewModel] = []
         
         for currency in currencies {
-            let currencyLongName = currency[currency.shortName] ?? ""
             let currencyListCellViewModel = CurrencyListCellViewModel(titleText: currency.shortName,
-                                                                      decriptionText: currencyLongName,
-                                                                      value: "0",
+                                                                      decriptionText: currency.longName,
                                                                       isSelected: currency.isSelected)
             cellViewModels.append(currencyListCellViewModel)
         }

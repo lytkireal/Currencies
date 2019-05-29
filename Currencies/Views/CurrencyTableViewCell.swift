@@ -10,18 +10,19 @@ import UIKit
 
 class CurrencyTableViewCell: UITableViewCell {
     
+    // MARK: - Static
+    
+    public static var identifier: String {
+        return String(describing: CurrencyTableViewCell.self)
+    }
+    
     // MARK: - IBOutlets
+    
     @IBOutlet weak var currencyImageView: UIImageView!
     @IBOutlet weak var shortNameLabel: UILabel!
     @IBOutlet weak var longNameLabel: UILabel!
 
-    // MARK: - Public
-    
-    public func configureWithCellModel(_ cellModel: CurrencyListCellViewModel) {
-        currencyImageView?.image = UIImage(named: cellModel.titleText)
-        shortNameLabel?.text = cellModel.titleText
-        longNameLabel?.text = cellModel.decriptionText
-    }
+    // MARK: - Interactions
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -35,9 +36,11 @@ class CurrencyTableViewCell: UITableViewCell {
         self.contentView.backgroundColor = .white
     }
     
-    // MARK: - Static
+    // MARK: - Public
     
-    public static func identifier() -> String {
-        return String(describing: CurrencyTableViewCell.self)
+    public func configureWithCellModel(_ cellModel: CurrencyListCellViewModel) {
+        currencyImageView?.image = UIImage(named: cellModel.titleText)
+        shortNameLabel?.text = cellModel.titleText
+        longNameLabel?.text = cellModel.decriptionText
     }
 }

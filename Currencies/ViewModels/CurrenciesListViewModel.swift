@@ -11,7 +11,6 @@ import Foundation
 struct CurrencyListCellViewModel {
     let titleText: String
     let decriptionText: String
-    var value: String
     var isSelected: Bool
 }
 
@@ -34,6 +33,8 @@ class CurrenciesListViewModel {
             reloadTableViewClosure?()
         }
     }
+    
+    private var pairs: [Pair] = []
     
     var alertMessage: String? {
         didSet {
@@ -59,9 +60,19 @@ class CurrenciesListViewModel {
     
     // MARK: - Public
     
+    public func receive(_ data: Any) {
+        if let pairList = data as? [Pair] {
+            pairs = pairList
+        }
+    }
+    
     public func userPressed(at indexPath: IndexPath) {
         currencies[indexPath.row].isSelected = true
         showComparableCurrenciesScreen?(indexPath)
+    }
+    
+    private func prepareCurrenciesForComparable() {
+        
     }
     
     public func initFetch() {
@@ -84,24 +95,47 @@ class CurrenciesListViewModel {
     }
     
     public func getModelForComparableCurrenciesListVC(forRowAt indexPath: IndexPath) -> ComparableCurrenciesListViewModel {
-        return ComparableCurrenciesListViewModel(currencies: currencies, comparableCurrency: currencies[indexPath.row])
+        let comparableCurrency = currencies[indexPath.row]
+        
+        let currencies = prepareCurrencies(withComparable: comparableCurrency)
+        
+        return ComparableCurrenciesListViewModel(currencies: currencies, comparableCurrency: comparableCurrency)
     }
     
     // MARK: - Private
     
     private func processFetchedCurrencies(currencies: [Currency]) {
         self.currencies = currencies
-        var cellViewModels = [CurrencyListCellViewModel]()
+        var cellViewModels: [CurrencyListCellViewModel] = []
         
         for currency in currencies {
-            let currencyLongName = currency[currency.shortName] ?? ""
             let currencyListCellViewModel = CurrencyListCellViewModel(titleText: currency.shortName,
-                                                                      decriptionText: currencyLongName,
-                                                                      value: "0",
+                                                                      decriptionText: currency.longName,
                                                                       isSelected: currency.isSelected)
             cellViewModels.append(currencyListCellViewModel)
         }
         self.cellViewModels = cellViewModels
+    }
+    
+    private func prepareCurrencies(withComparable currency: Currency) -> [Currency] {
+        
+        var alreadyComparedCurrencies: [Currency] = []
+        
+        for pair in pairs {
+            if pair.main == currency {
+                alreadyComparedCurrencies.append(pair.secondary)
+            }
+        }
+        
+        currencies.forEach {
+            if alreadyComparedCurrencies.contains($0),
+                let index = currencies.index(of: $0) {
+                
+                currencies[index].isSelected = true
+            }
+        }
+        
+        return currencies
     }
 }
 

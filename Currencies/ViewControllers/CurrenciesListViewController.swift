@@ -46,7 +46,7 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyTableViewCell.identifier(), for: indexPath) as? CurrencyTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyTableViewCell.identifier, for: indexPath) as? CurrencyTableViewCell else {
             
             return UITableViewCell()
         }
@@ -101,7 +101,13 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
     }
 }
 
+// MARK: - Receiver
 
+extension CurrenciesListViewController: Receiver {
+    func receive(_ data: Any) {
+        viewModel.receive(data)
+    }
+}
 
 
 
