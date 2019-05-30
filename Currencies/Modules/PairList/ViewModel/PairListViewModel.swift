@@ -17,9 +17,15 @@ struct PairListCellViewModel {
 
 class PairListViewModel {
     
-    let apiService: PairsServiceProtocol
+    // MARK: - Public Properties
     
-    var alertMessage: String? {
+    var numberOfSections = 2
+    
+    // MARK: - Private Properties
+    
+    private let apiService: PairsServiceProtocol
+    
+    private var alertMessage: String? {
         didSet {
             showAlertClosure?()
         }
@@ -37,7 +43,7 @@ class PairListViewModel {
         }
     }
     
-    var numberOfSections = 2
+    private var timer = Timer()
     
     // MARK: - Binding
     
