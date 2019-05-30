@@ -14,22 +14,26 @@ protocol Receiver: AnyObject {
 
 class PairListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    // MARK: - Private Properties
+    
     private var viewModel: PairListViewModel = {
        return PairListViewModel()
     }()
     
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var tableView: UITableView!
 
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.reloadTableViewClosure = { [weak self] in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
+        initViewModel()
     }
-
+    
+    // MARK: - UITableViewDataSource
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.numberOfSections
     }
@@ -56,25 +60,55 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        viewModel.removeAction(at: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        viewModel.beginEditingAction()
+    }
+    
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        viewModel.endEditingAction()
+    }
+    
+    // MARK: - UITableViewDelegate
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return viewModel.getCellHeight(at: indexPath)
     }
-    
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+     
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         let isTopCell = viewModel.isTopCell(at: indexPath)
-        return isTopCell ? indexPath : nil
+        return isTopCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    // MARK: - Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? UINavigationController {
             viewModel.calledSegue(to: destinationVC.viewControllers.first as Any)
         }
     }
+    
+    // MARK: - Private
+    
+    private func initViewModel() {
+        viewModel.reloadTableViewClosure = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        viewModel.startEngine()
+    }
 }
+
+// MARK: - Receiver
 
 extension PairListViewController: Receiver {
     func receive(_ data: Any) {

@@ -11,7 +11,7 @@ import Foundation
 enum APIError: String, Error {
     case noNetwork = "No network. Check your network settings."
     case invalidSessionResponse = "Invalid session. Try again."
-    case dataProcessingFailure = "Can't process currenies. Try later."
+    case dataProcessingFailure = "Can't show currenies. Try later."
 }
 
 protocol APIServiceProtocol {
@@ -83,6 +83,7 @@ class PairsService: PairsServiceProtocol {
             }
             
             let decoder = JSONDecoder()
+            
             do {
                 let pairsData = try decoder.decode(Dictionary<String, Float>.self, from: data)
                 var pairs: [Pair] = []

@@ -87,8 +87,8 @@
 		1B0F57ED229FB42900A857B1 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				1B17BC0A2298036F007E7BE3 /* Models */,
 				1B17BC0722980342007E7BE3 /* Services */,
+				1B17BC0A2298036F007E7BE3 /* Models */,
 				1B0F57EE229FB46000A857B1 /* Main */,
 				1B0F57EF229FB47000A857B1 /* PairList */,
 				1B0F57F0229FB4AC00A857B1 /* CurrencyList */,
@@ -109,8 +109,8 @@
 		1B0F57EF229FB47000A857B1 /* PairList */ = {
 			isa = PBXGroup;
 			children = (
-				1B0F57F4229FB64400A857B1 /* ViewController */,
 				1B0F57F5229FB64400A857B1 /* ViewModel */,
+				1B0F57F4229FB64400A857B1 /* ViewController */,
 			);
 			path = PairList;
 			sourceTree = "<group>";
@@ -118,8 +118,8 @@
 		1B0F57F0229FB4AC00A857B1 /* CurrencyList */ = {
 			isa = PBXGroup;
 			children = (
-				1B0F57F6229FB65400A857B1 /* ViewController */,
 				1B0F57F7229FB65400A857B1 /* ViewModel */,
+				1B0F57F6229FB65400A857B1 /* ViewController */,
 			);
 			path = CurrencyList;
 			sourceTree = "<group>";
@@ -127,8 +127,8 @@
 		1B0F57F1229FB5E100A857B1 /* ComparableList */ = {
 			isa = PBXGroup;
 			children = (
-				1B0F57F8229FB65C00A857B1 /* ViewController */,
 				1B0F57F9229FB65C00A857B1 /* ViewModel */,
+				1B0F57F8229FB65C00A857B1 /* ViewController */,
 			);
 			path = ComparableList;
 			sourceTree = "<group>";
@@ -245,9 +245,9 @@
 			isa = PBXGroup;
 			children = (
 				1BCE3CB72297EAF100CC9D24 /* AppLaunching */,
+				1B17BC0C2298036F007E7BE3 /* Constants */,
 				1B0F57ED229FB42900A857B1 /* Modules */,
 				1BCE3CB92297EB2800CC9D24 /* Views */,
-				1B17BC0C2298036F007E7BE3 /* Constants */,
 				1BCE3CBB2297EBDF00CC9D24 /* Resources */,
 				1BCE3CBC2297EBF000CC9D24 /* SupportingFiles */,
 			);

@@ -13,4 +13,5 @@ typealias EmptyClosure = () -> Void
 struct Network {
     //static let host = "https://revolut.duckdns.org"
     static let host = "https://europe-west1-revolut-230009.cloudfunctions.net/revolut-ios"
+    static let updatingInterval: TimeInterval = 1
 }
