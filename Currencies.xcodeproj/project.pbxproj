@@ -18,6 +18,7 @@
 		1B433DA422A1172A00ED0532 /* Pair+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B433DA222A1172A00ED0532 /* Pair+CoreDataClass.swift */; };
 		1B433DA522A1172A00ED0532 /* Pair+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B433DA322A1172A00ED0532 /* Pair+CoreDataProperties.swift */; };
 		1B433DA722A11BF200ED0532 /* PairsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B433DA622A11BF200ED0532 /* PairsService.swift */; };
+		1B433DAA22A1209500ED0532 /* MainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B433DA922A1209500ED0532 /* MainService.swift */; };
 		1B80DF59229C12A200816092 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B80DF58229C12A200816092 /* MainViewController.swift */; };
 		1B80DF5B229C15A000816092 /* PairListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B80DF5A229C15A000816092 /* PairListViewController.swift */; };
 		1BCE3C982297EAD500CC9D24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BCE3C972297EAD500CC9D24 /* AppDelegate.swift */; };
@@ -54,6 +55,7 @@
 		1B433DA222A1172A00ED0532 /* Pair+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pair+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1B433DA322A1172A00ED0532 /* Pair+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pair+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1B433DA622A11BF200ED0532 /* PairsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairsService.swift; sourceTree = "<group>"; };
+		1B433DA922A1209500ED0532 /* MainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainService.swift; sourceTree = "<group>"; };
 		1B80DF58229C12A200816092 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		1B80DF5A229C15A000816092 /* PairListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairListViewController.swift; sourceTree = "<group>"; };
 		1BCE3C942297EAD500CC9D24 /* Currencies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Currencies.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,6 +218,7 @@
 			children = (
 				1B17BC0822980342007E7BE3 /* APIService.swift */,
 				1B433DA622A11BF200ED0532 /* PairsService.swift */,
+				1B433DA922A1209500ED0532 /* MainService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				D0143E7B229ACB1B00687A68 /* ComparableCurrenciesListViewController.swift in Sources */,
 				1B0F57E8229E41B200A857B1 /* PairTableViewCell.swift in Sources */,
 				1B17BC0E2298036F007E7BE3 /* Currency.swift in Sources */,
+				1B433DAA22A1209500ED0532 /* MainService.swift in Sources */,
 				1B80DF5B229C15A000816092 /* PairListViewController.swift in Sources */,
 				1B433DA422A1172A00ED0532 /* Pair+CoreDataClass.swift in Sources */,
 				1B433DA722A11BF200ED0532 /* PairsService.swift in Sources */,

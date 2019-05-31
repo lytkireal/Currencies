@@ -6,7 +6,7 @@
 //  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class MainViewModel {
     
@@ -36,6 +36,23 @@ class MainViewModel {
     
     init(apiService: PairsServiceProtocol = PairsService()) {
         self.apiService = apiService
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
+            else { return }
+        
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        
+        let request = Pair.makeFetchRequest()
+        
+        do {
+            let pairs = try managedObjectContext.fetch(request)
+            for pair in pairs {
+                print("\(pair.main.shortName), \(pair.secondary.shortName)")
+                print("------------------------------")
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
     
     // MARK: - Public

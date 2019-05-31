@@ -20,11 +20,24 @@ extension Pair {
         pair.coefficient = coefficient
         return pair
     }
-    
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Pair> {
-        return NSFetchRequest<Pair>(entityName: "Pair")
-    }
 
+    @nonobjc public class func makeFetchRequest(withPredicateFor property: Pair.PropertyNames? = nil,
+                                                filterText: Currency? = nil) -> NSFetchRequest<Pair> {
+        
+        let fetchRequest = NSFetchRequest<Pair>(entityName: Pair.entityName)
+        
+        if let unwrappedProperty = property,
+            let text = filterText {
+            fetchRequest.predicate = NSPredicate(format: "\(unwrappedProperty.rawValue) = %@", text)
+        }
+        
+        return fetchRequest
+    }
+    
+    @nonobjc public class func makeEntity(in managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
+        return NSEntityDescription.entity(forEntityName: Pair.entityName, in: managedObjectContext)
+    }
+    
     @NSManaged public var coefficient: Float
     @NSManaged public var secondary: Currency
     @NSManaged public var main: Currency

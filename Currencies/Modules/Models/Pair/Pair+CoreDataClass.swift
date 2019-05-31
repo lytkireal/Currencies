@@ -12,5 +12,12 @@ import CoreData
 
 @objc(Pair)
 public class Pair: NSManagedObject {
-
+    public enum PropertyNames: String {
+        case main = "main"
+        case secondary = "secondary"
+    }
+    
+    static var entityName: String {
+        return String(describing: Pair.self)
+    }
 }

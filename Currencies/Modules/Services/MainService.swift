@@ -1,5 +1,5 @@
 //
-//  PairsService.swift
+//  MainViewModel.swift
 //  Currencies
 //
 //  Created by Artem Lytkin on 31/05/2019.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class PairsService: PairsServiceProtocol {
+class MainService: PairsServiceProtocol {
     
     var managedObjectContext: NSManagedObjectContext? {
         get {
@@ -21,7 +21,8 @@ class PairsService: PairsServiceProtocol {
     
     func fetchPairsList(pairNames: [String], completion: @escaping (_ pairs: [Pair]?, _ error: APIError?) -> Void) {
         
-        guard let firstPair = pairNames.first else { return }
+        guard let firstPair = pairNames.first,
+            let managedObjectContext = managedObjectContext else { return }
         
         let otherPairs = pairNames.suffix(from: 0)
         
@@ -54,15 +55,11 @@ class PairsService: PairsServiceProtocol {
             do {
                 let pairsData = try decoder.decode(Dictionary<String, Float>.self, from: data)
                 var pairs: [Pair] = []
-                DispatchQueue.main.async {
-                    for (pairName, coefficient) in pairsData {
-                        guard let managedObjectContext = self.managedObjectContext else { return }
-                        let pair = PairsService.makePair(from: pairName, coefficient: coefficient, context: managedObjectContext)
-                        pairs.append(pair)
-                        self.savePair(pair)
-                    }
+                for (pairName, coefficient) in pairsData {
+                    let pair = MainService.makePair(from: pairName, coefficient: coefficient, context: managedObjectContext)
+                    pairs.append(pair)
                 }
-                
+                self.savePairs()
                 completion(pairs, nil)
             } catch {
                 completion(nil, APIError.dataProcessingFailure)
@@ -72,24 +69,14 @@ class PairsService: PairsServiceProtocol {
         task.resume()
     }
     
-    private func savePair(_ pair: Pair) {
+    private func savePairs() {
+        guard let managedObjectContext = managedObjectContext else { return }
+        
         DispatchQueue.main.async {
-            guard let managedObjectContext = self.managedObjectContext else { return }
-            
-            let fetchRequest = Pair.makeFetchRequest(withPredicateFor: .main, filterText: pair.main)
-            
             do {
-                let pairs = try managedObjectContext.fetch(fetchRequest)
-                if pairs.isEmpty {
-                    do {
-                        try managedObjectContext.save()
-                    } catch let error as NSError {
-                        print("Could not save. \(error), \(error.userInfo)")
-                    }
-                }
-                
-            } catch {
-                
+                try managedObjectContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
             }
         }
     }
