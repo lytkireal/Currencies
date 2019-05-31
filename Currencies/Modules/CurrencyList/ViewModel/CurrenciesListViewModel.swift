@@ -127,11 +127,11 @@ class CurrenciesListViewModel {
             }
         }
         
-        currencies.forEach {
-            if alreadyComparedCurrencies.contains($0),
-                let index = currencies.index(of: $0) {
-                
-                currencies[index].isSelected = true
+        for currency in currencies {
+            for comparedCurrency in alreadyComparedCurrencies {
+                if currency == comparedCurrency {
+                    currency.isSelected = true
+                }
             }
         }
         

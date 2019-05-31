@@ -8,9 +8,18 @@
 
 import Foundation
 
-struct Currency: Equatable {
+@objc(Currency)
+public class Currency: NSObject, NSCoding {
     
-    static func ==(lhs: Currency, rhs: Currency) -> Bool {
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(shortName, forKey: "shortName")
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        shortName = aDecoder.decodeObject(forKey: "shortName") as! String
+    }
+    
+    public static func ==(lhs: Currency, rhs: Currency) -> Bool {
         return lhs.shortName == rhs.shortName
     }
     
