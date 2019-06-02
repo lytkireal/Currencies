@@ -10,15 +10,28 @@ import UIKit
 
 class MainViewModel {
     
-    let apiService: PairsServiceProtocol
+    let apiService: MainServiceProtocol
     
-    var alertMessage: String? {
-        didSet {
-            showAlertClosure?()
+    var isEmpty: Bool {
+        get {
+            return pairs.isEmpty
         }
     }
     
-    private var pairs: [Pair] = [] {
+    var count: Int {
+        get {
+            return pairs.count
+        }
+    }
+    
+    var alertMessage: String? {
+        didSet {
+            guard let message = alertMessage else { return }
+            showAlertClosure?(message)
+        }
+    }
+    
+    private(set) var pairs: [Pair] = [] {
         didSet {
             if pairs.isEmpty { return }
             showPairListScreen?()
@@ -30,11 +43,11 @@ class MainViewModel {
     // MARK: - Binding
     
     var showPairListScreen: EmptyClosure?
-    var showAlertClosure: EmptyClosure?
+    var showAlertClosure: ErrorClosure?
     
     // MARK: - Lifecycle
     
-    init(apiService: PairsServiceProtocol = PairsService()) {
+    init(apiService: MainServiceProtocol = MainService()) {
         self.apiService = apiService
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -45,11 +58,8 @@ class MainViewModel {
         let request = Pair.makeFetchRequest()
         
         do {
-            let pairs = try managedObjectContext.fetch(request)
-            for pair in pairs {
-                print("\(pair.main.shortName), \(pair.secondary.shortName)")
-                print("------------------------------")
-            }
+            pairs = try managedObjectContext.fetch(request)
+            
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -57,23 +67,32 @@ class MainViewModel {
     
     // MARK: - Public
     
+    public func initData() {
+        if pairs.isEmpty { return }
+        showPairListScreen?()
+    }
+    
     public func didSelect(viewController: Any) {
         if let receiver = viewController as? Receiver {
             receiver.receive(pairs)
+            pairs.removeAll()
         }
     }
     
     public func fetchPair(first: Currency, second: Currency) {
-        let pairList = [first.shortName + second.shortName]
-        apiService.fetchPairsList(pairNames: pairList) {[weak self] (pairs, error) in
+        let pairName = first.shortName + second.shortName
+        apiService.fetchPair(pairName: pairName) {[weak self] (pairs, error) in
             guard error == nil,
                 let unwrappedPairs = pairs else {
                     
-                    self?.alertMessage = error.debugDescription
+                    if let errorMessage = error?.rawValue {
+                        self?.alertMessage = errorMessage
+                    }
+                    
                     return
             }
             
-            self?.pairs = unwrappedPairs
+            self?.pairs.append(contentsOf: unwrappedPairs)
         }
     }
     

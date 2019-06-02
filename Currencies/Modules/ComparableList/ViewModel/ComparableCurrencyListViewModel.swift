@@ -1,14 +1,14 @@
 //
-//  CurrenciesListViewModel.swift
-//  Revolut
+//  AppDelegate.swift
+//  Currencies
 //
-//  Created by Artem Lytkin on 27.08.2018.
-//  Copyright © 2018 Artem Lytkin. All rights reserved.
+//  Created by Artem Lytkin on 24/05/2019.
+//  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
 import Foundation
 
-class ComparableCurrenciesListViewModel {
+class ComparableCurrencyListViewModel {
     
     // MARK: - Properties
     
@@ -17,7 +17,8 @@ class ComparableCurrenciesListViewModel {
     
     var alertMessage: String? {
         didSet {
-            showAlertClosure?()
+            guard let message = alertMessage else { return }
+            showAlertClosure?(message)
         }
     }
     
@@ -30,7 +31,7 @@ class ComparableCurrenciesListViewModel {
     
     // MARK: - Binding
     
-    var showAlertClosure: EmptyClosure?
+    var showAlertClosure: ErrorClosure?
     var sendPairsClosure: EmptyClosure?
     
     // MARK: - Lifecycle

@@ -1,5 +1,5 @@
 //
-//  PairsService.swift
+//  MainViewModel.swift
 //  Currencies
 //
 //  Created by Artem Lytkin on 31/05/2019.
@@ -9,7 +9,11 @@
 import UIKit
 import CoreData
 
-class PairsService: PairsServiceProtocol {
+protocol MainServiceProtocol: class {
+    func fetchPair(pairName: String, completion: @escaping (_ pairs: [Pair]?, _ error: APIError?) -> Void)
+}
+
+class MainService: MainServiceProtocol {
     
     var managedObjectContext: NSManagedObjectContext? {
         get {
@@ -19,20 +23,9 @@ class PairsService: PairsServiceProtocol {
         }
     }
     
-    func fetchPairsList(pairNames: [String], completion: @escaping (_ pairs: [Pair]?, _ error: APIError?) -> Void) {
+    func fetchPair(pairName: String, completion: @escaping (_ pairs: [Pair]?, _ error: APIError?) -> Void) {
         
-        guard let firstPair = pairNames.first else { return }
-        
-        let otherPairs = pairNames.suffix(from: 0)
-        
-        var urlString = Network.host + "?pairs=\(firstPair)"
-        
-        // Separate into characters for sum in one string at bottom
-        let pairsCharacters = otherPairs.flatMap {
-            return "&pairs=" + $0
-        }
-        let pairsString = String(pairsCharacters)
-        urlString += pairsString
+        let urlString = Network.host + "?pairs=\(pairName)"
         
         let url = URL(string: urlString)
         
@@ -53,17 +46,25 @@ class PairsService: PairsServiceProtocol {
             
             do {
                 let pairsData = try decoder.decode(Dictionary<String, Float>.self, from: data)
-                var pairs: [Pair] = []
-                DispatchQueue.main.async {
-                    for (pairName, coefficient) in pairsData {
-                        guard let managedObjectContext = self.managedObjectContext else { return }
-                        let pair = PairsService.makePair(from: pairName, coefficient: coefficient, context: managedObjectContext)
-                        pairs.append(pair)
-                        self.savePair(pair)
-                    }
-                }
                 
-                completion(pairs, nil)
+                DispatchQueue.main.async {
+                    var pairs: [Pair] = []
+                    
+                    guard let managedObjectContext = self.managedObjectContext else {
+                        completion(nil, APIError.noDataManager)
+                        return
+                    }
+                    
+                    for (pairName, coefficient) in pairsData {
+                        if let pair = MainService.makePair(from: pairName, coefficient: coefficient, context: managedObjectContext) {
+                            
+                            pairs.append(pair)
+                        }
+                    }
+                    
+                    self.savePairs()
+                    completion(pairs, nil)
+                }
             } catch {
                 completion(nil, APIError.dataProcessingFailure)
             }
@@ -72,40 +73,30 @@ class PairsService: PairsServiceProtocol {
         task.resume()
     }
     
-    private func savePair(_ pair: Pair) {
+    private func savePairs() {
         DispatchQueue.main.async {
             guard let managedObjectContext = self.managedObjectContext else { return }
             
-            let fetchRequest = Pair.makeFetchRequest(withPredicateFor: .main, filterText: pair.main)
-            
             do {
-                let pairs = try managedObjectContext.fetch(fetchRequest)
-                if pairs.isEmpty {
-                    do {
-                        try managedObjectContext.save()
-                    } catch let error as NSError {
-                        print("Could not save. \(error), \(error.userInfo)")
-                    }
-                }
-                
-            } catch {
-                
+                try managedObjectContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
             }
         }
     }
     
     // MARK: - Static
     
-    private static func makePair(from pairName: String, coefficient: Float, context: NSManagedObjectContext) -> Pair {
-        // TODO: - Take a good, short names for variables:
+    private static func makePair(from pairName: String, coefficient: Float, context: NSManagedObjectContext) -> Pair? {
         let endIndexOfMainCurrencyName = pairName.index(pairName.startIndex, offsetBy: 2)
         let mainCurrencyName = String(pairName[pairName.startIndex...endIndexOfMainCurrencyName])
         let startIndexOfSecondaryCurrencyName = pairName.index(after: endIndexOfMainCurrencyName)
         let secondaryCurrencyName = String(pairName[startIndexOfSecondaryCurrencyName..<pairName.endIndex])
         
-        let mainCurrency = Currency(shortName: mainCurrencyName)
-        let secondaryCurrency = Currency(shortName: secondaryCurrencyName)
-        
+        guard let mainCurrency = Currency(shortName: mainCurrencyName),
+            let secondaryCurrency = Currency(shortName: secondaryCurrencyName) else {
+                return nil
+        }
         
         let pair = Pair.makePair(with: context, main: mainCurrency, secondary: secondaryCurrency, coefficient: coefficient)
         

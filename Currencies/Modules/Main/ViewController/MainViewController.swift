@@ -34,11 +34,18 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
                 self.tabBarController(self, didSelect: vc)
             }
         }
+        
+        viewModel.showAlertClosure = { [weak self] message in
+            DispatchQueue.main.async {
+                self?.showError(message: message)
+            }
+        }
+        
+        viewModel.initData()
     }
     
     @IBAction func done(segue: UIStoryboardSegue) {
-        //print(segue.source)
-        //print(segue.destination)
+        // There is a seque to return back in MainViewController from ComparableCurrenciesListViewController
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {

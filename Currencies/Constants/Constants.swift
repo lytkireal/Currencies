@@ -1,17 +1,26 @@
 //
-//  Constants.swift
-//  Revolut
+//  AppDelegate.swift
+//  Currencies
 //
-//  Created by Artem Lytkin on 20.08.2018.
-//  Copyright © 2018 Artem Lytkin. All rights reserved.
+//  Created by Artem Lytkin on 24/05/2019.
+//  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
 import Foundation
 
+enum APIError: String, Error {
+    case noNetwork = "No network. Check your network settings."
+    case invalidSessionResponse = "Invalid session. Try again."
+    case dataProcessingFailure = "Can't show currenies. Try later."
+    case noDataManager = "App can't save pairs of currencies."
+}
+
 typealias EmptyClosure = () -> Void
+typealias ErrorClosure = (_ message: String) -> Void
+typealias PairPayload = (main: Currency, secondary: Currency, coefficient: Float)
+typealias FetchPairValuesClosure = ( [PairPayload]?, _ error: APIError?) -> Void
 
 struct Network {
-    //static let host = "https://revolut.duckdns.org"
     static let host = "https://europe-west1-revolut-230009.cloudfunctions.net/revolut-ios"
     static let updatingInterval: TimeInterval = 1
 }

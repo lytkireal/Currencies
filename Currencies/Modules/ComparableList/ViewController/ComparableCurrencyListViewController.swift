@@ -8,9 +8,7 @@
 
 import UIKit
 
-
-
-class ComparableCurrenciesListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ComparableCurrencyListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - IBOutlets
     
@@ -18,13 +16,13 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
     
     // MARK: - Properties
     
-    private var viewModel: ComparableCurrenciesListViewModel!
+    private var viewModel: ComparableCurrencyListViewModel!
     
     // MARK: - Lifecycle
     
-    static func `init`(viewModel: ComparableCurrenciesListViewModel) -> ComparableCurrenciesListViewController? {
+    static func `init`(viewModel: ComparableCurrencyListViewModel) -> ComparableCurrencyListViewController? {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: String(describing: ComparableCurrenciesListViewController.self)) as? ComparableCurrenciesListViewController
+        let vc = storyboard.instantiateViewController(withIdentifier: String(describing: ComparableCurrencyListViewController.self)) as? ComparableCurrencyListViewController
         vc?.viewModel = viewModel
         vc?.initViewModel()
         return vc
@@ -81,19 +79,11 @@ class ComparableCurrenciesListViewController: UIViewController, UITableViewDataS
         }
         
         // * showAlertClosure
-        viewModel.showAlertClosure = { [weak self] in
+        viewModel.showAlertClosure = { [weak self] message in
             DispatchQueue.main.async {
-                if let message = self?.viewModel.alertMessage {
-                    self?.showAlert( message )
-                }
+                self?.showError(message: message)
             }
         }
-    }
-    
-    private func showAlert( _ message: String) {
-        let alertVC = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-        alertVC.addAction( UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-        present(alertVC, animated: true, completion: nil)
     }
 }
 

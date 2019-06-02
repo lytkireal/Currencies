@@ -12,6 +12,11 @@ import CoreData
 
 @objc(Pair)
 public class Pair: NSManagedObject {
+    
+    public static func ==(lhs: Pair, rhs: Pair) -> Bool {
+        return lhs.main == rhs.main && lhs.secondary == rhs.secondary
+    }
+    
     public enum PropertyNames: String {
         case main = "main"
         case secondary = "secondary"

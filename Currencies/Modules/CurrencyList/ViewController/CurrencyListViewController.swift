@@ -1,14 +1,14 @@
 //
-//  ViewController.swift
-//  Revolut
+//  AppDelegate.swift
+//  Currencies
 //
-//  Created by Artem Lytkin on 20.08.2018.
-//  Copyright © 2018 Artem Lytkin. All rights reserved.
+//  Created by Artem Lytkin on 24/05/2019.
+//  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
 import UIKit
 
-class CurrenciesListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CurrencyListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - IBOutlets
     
@@ -16,8 +16,8 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
     
     // MARK: - Properties
     
-    lazy var viewModel: CurrenciesListViewModel = {
-        return CurrenciesListViewModel()
+    lazy var viewModel: CurrencyListViewModel = {
+        return CurrencyListViewModel()
     }()
     
     // MARK: - View Lifecycle
@@ -69,11 +69,9 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
     
     private func initViewModel() {
         // * showAlertClosure
-        viewModel.showAlertClosure = { [weak self] in
+        viewModel.showAlertClosure = { [weak self] message in
             DispatchQueue.main.async {
-                if let message = self?.viewModel.alertMessage {
-                    self?.showAlert( message )
-                }
+                self?.showError(message: message)
             }
         }
         
@@ -89,21 +87,15 @@ class CurrenciesListViewController: UIViewController, UITableViewDataSource, UIT
             guard let self = self else { return }
             
             let viewModel = self.viewModel.getModelForComparableCurrenciesListVC(forRowAt: indexPath)
-            let comparableCurrenciesVC = ComparableCurrenciesListViewController.init(viewModel: viewModel)
+            let comparableCurrenciesVC = ComparableCurrencyListViewController.init(viewModel: viewModel)
             self.show(comparableCurrenciesVC!, sender: nil)
         }
-    }
-    
-    private func showAlert( _ message: String) {
-        let alertVC = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-        alertVC.addAction( UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-        present(alertVC, animated: true, completion: nil)
     }
 }
 
 // MARK: - Receiver
 
-extension CurrenciesListViewController: Receiver {
+extension CurrencyListViewController: Receiver {
     func receive(_ data: Any) {
         viewModel.receive(data)
     }

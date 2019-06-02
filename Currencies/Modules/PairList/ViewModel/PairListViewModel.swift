@@ -23,16 +23,18 @@ class PairListViewModel {
     
     // MARK: - Private Properties
     
-    private let apiService: PairsServiceProtocol
+    private let apiService: PairServiceProtocol
     
     private var alertMessage: String? {
         didSet {
-            showAlertClosure?()
+            guard let message = alertMessage else { return }
+            showAlertClosure?(message)
         }
     }
     
     private var pairs: [Pair] = [] {
         didSet {
+            print("PairListViewModel. Pairs have been updated")
             updateCellViewModels(with: pairs)
         }
     }
@@ -48,11 +50,11 @@ class PairListViewModel {
     // MARK: - Binding
     
     var reloadTableViewClosure: EmptyClosure?
-    var showAlertClosure: EmptyClosure?
+    var showAlertClosure: ErrorClosure?
     
     // MARK: - Lifecycle
     
-    init(apiService: PairsServiceProtocol = PairsService()) {
+    init(apiService: PairServiceProtocol = PairService()) {
         self.apiService = apiService
     }
     
@@ -83,7 +85,7 @@ class PairListViewModel {
     
     public func getCellHeight(at indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 50
+            return 70
         }
         
         return 80
@@ -101,6 +103,7 @@ class PairListViewModel {
     }
     
     public func removeAction(at indexPath: IndexPath){
+        apiService.removePair(pairs[indexPath.row])
         pairs.remove(at: indexPath.row)
     }
     
@@ -112,45 +115,59 @@ class PairListViewModel {
         startTimer()
     }
     
+    @objc
+    public func viewDidDisappear() {
+        print("viewDidDisappear")
+        apiService.savePairs(pairs)
+    }
+    
     // MARK: - Private
     
     private func startTimer() {
         // Start timer with interval 1 s:
         timer = Timer.scheduledTimer(timeInterval: Network.updatingInterval,
                                      target: self,
-                                     selector: #selector(fetchPairs),
+                                     selector: #selector(updatePairs),
                                      userInfo: nil,
                                      repeats: true)
     }
     
     @objc
-    private func fetchPairs() {
-
+    private func updatePairs() {
+        
         let pairNames: [String] = pairs.map {
             return $0.main.shortName + $0.secondary.shortName
         }
         
-        apiService.fetchPairsList(pairNames: pairNames) {[weak self] (pairs, error) in
+        apiService.fetchNewValues(for: pairNames) {[weak self] pairPayloadList, error in
             guard error == nil,
-                let unwrappedPairs = pairs else {
+                let unwrappedPairPayloadList = pairPayloadList else {
                     
-                    self?.alertMessage = error.debugDescription
+                    if let errorMessage = error?.rawValue {
+                        self?.alertMessage = errorMessage
+                    }
+                    
                     return
             }
             
-            self?.udpateCoefficients(with: unwrappedPairs)
+            self?.udpateCoefficients(withPayload: unwrappedPairPayloadList)
         }
     }
     
-    private func udpateCoefficients(with fetchedPairs: [Pair]) {
+    private func udpateCoefficients(withPayload payload: [PairPayload]) {
+        
         pairsLoop: for (indexInArray, pair) in pairs.enumerated() {
-            for fetchedPair in fetchedPairs {
-                if pair.main == fetchedPair.main, pair.secondary == fetchedPair.secondary {
-                    pairs[indexInArray] = fetchedPair
+            for pairPayload in payload {
+                if pair.main == pairPayload.main,
+                    pair.secondary == pairPayload.secondary {
+                    
+                    pairs[indexInArray].coefficient = pairPayload.coefficient
                     continue pairsLoop
                 }
             }
         }
+        
+        updateCellViewModels(with: pairs)
     }
     
     private func updateCellViewModels(with pairs: [Pair]) {

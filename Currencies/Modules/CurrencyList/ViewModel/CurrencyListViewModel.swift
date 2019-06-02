@@ -1,9 +1,9 @@
 //
-//  CurrenciesListViewModel.swift
-//  Revolut
+//  AppDelegate.swift
+//  Currencies
 //
-//  Created by Artem Lytkin on 27.08.2018.
-//  Copyright © 2018 Artem Lytkin. All rights reserved.
+//  Created by Artem Lytkin on 24/05/2019.
+//  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
 import Foundation
@@ -14,11 +14,11 @@ struct CurrencyListCellViewModel {
     var isSelected: Bool
 }
 
-class CurrenciesListViewModel {
+class CurrencyListViewModel {
     
     // MARK: - Properties
     
-    let apiService: APIServiceProtocol
+    let apiService: CurrencyServiceProtocol
     
     private var currencies: [Currency] = [] {
         didSet {
@@ -38,7 +38,8 @@ class CurrenciesListViewModel {
     
     var alertMessage: String? {
         didSet {
-            showAlertClosure?()
+            guard let message = alertMessage else { return }
+            showAlertClosure?(message)
         }
     }
     
@@ -49,12 +50,12 @@ class CurrenciesListViewModel {
     // MARK: - Binding
     
     var reloadTableViewClosure: EmptyClosure?
-    var showAlertClosure: EmptyClosure?
+    var showAlertClosure: ErrorClosure?
     var showComparableCurrenciesScreen: ( (_ selectedIndexPath: IndexPath) -> Void )?
     
     // MARK: - Lifecycle
     
-    init(apiService: APIServiceProtocol = CurrenciesService()) {
+    init(apiService: CurrencyServiceProtocol = CurrencyService()) {
         self.apiService = apiService
     }
     
@@ -94,12 +95,12 @@ class CurrenciesListViewModel {
         return cellViewModel
     }
     
-    public func getModelForComparableCurrenciesListVC(forRowAt indexPath: IndexPath) -> ComparableCurrenciesListViewModel {
-        let comparableCurrency = currencies[indexPath.row]
+    public func getModelForComparableCurrenciesListVC(forRowAt indexPath: IndexPath) -> ComparableCurrencyListViewModel {
+        let comparableCurrency = self.currencies[indexPath.row]
         
         let currencies = prepareCurrencies(withComparable: comparableCurrency)
         
-        return ComparableCurrenciesListViewModel(currencies: currencies, comparableCurrency: comparableCurrency)
+        return ComparableCurrencyListViewModel(currencies: currencies, comparableCurrency: comparableCurrency)
     }
     
     // MARK: - Private

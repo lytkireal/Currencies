@@ -28,8 +28,14 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         initViewModel()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        viewModel.viewDidDisappear()
     }
     
     // MARK: - UITableViewDataSource
@@ -98,11 +104,23 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - Private
     
     private func initViewModel() {
+        
         viewModel.reloadTableViewClosure = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
         }
+        
+        viewModel.showAlertClosure = { [weak self] message in
+            DispatchQueue.main.async {
+                self?.showError(message: message)
+            }
+        }
+        
+        NotificationCenter.default.addObserver(viewModel,
+                                               selector: #selector(viewModel.viewDidDisappear),
+                                               name: UIApplication.willResignActiveNotification,
+                                               object: nil)
         
         viewModel.startEngine()
     }

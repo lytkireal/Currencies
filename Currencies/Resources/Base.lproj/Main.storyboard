@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aFa-WQ-QVx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aFa-WQ-QVx">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -105,39 +105,41 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 GBP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PSb-VJ-zkd">
-                                                    <rect key="frame" x="15" y="28" width="53" height="24"/>
+                                                    <rect key="frame" x="15" y="8" width="53" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,1627" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLD-zj-oaL">
-                                                    <rect key="frame" x="247" y="28" width="58" height="24"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,1627" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLD-zj-oaL">
+                                                    <rect key="frame" x="247" y="8" width="58" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="British Pound" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajE-04-Umx">
-                                                    <rect key="frame" x="15" y="52" width="86.5" height="17"/>
+                                                    <rect key="frame" x="15" y="32" width="86.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.54509803921568623" green="0.58431372549019611" blue="0.61960784313725492" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Euro . EUR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MmY-li-23q">
-                                                    <rect key="frame" x="236.5" y="52" width="68.5" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Euro . EUR" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MmY-li-23q">
+                                                    <rect key="frame" x="111.5" y="32" width="193.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.5450980392" green="0.58431372550000005" blue="0.61960784310000006" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="wLD-zj-oaL" firstAttribute="centerY" secondItem="ocW-3L-0Kz" secondAttribute="centerY" id="4cn-cB-iOn"/>
+                                                <constraint firstItem="wLD-zj-oaL" firstAttribute="centerY" secondItem="ocW-3L-0Kz" secondAttribute="centerY" constant="-20" id="4cn-cB-iOn"/>
+                                                <constraint firstItem="MmY-li-23q" firstAttribute="leading" secondItem="ajE-04-Umx" secondAttribute="trailing" priority="750" constant="10" id="CLG-yf-dNe"/>
                                                 <constraint firstItem="PSb-VJ-zkd" firstAttribute="leading" secondItem="ocW-3L-0Kz" secondAttribute="leadingMargin" id="I0H-yp-2rj"/>
-                                                <constraint firstItem="PSb-VJ-zkd" firstAttribute="centerY" secondItem="ocW-3L-0Kz" secondAttribute="centerY" id="W1G-Jm-gwP"/>
+                                                <constraint firstItem="PSb-VJ-zkd" firstAttribute="centerY" secondItem="ocW-3L-0Kz" secondAttribute="centerY" constant="-20" id="W1G-Jm-gwP"/>
                                                 <constraint firstItem="ajE-04-Umx" firstAttribute="leading" secondItem="PSb-VJ-zkd" secondAttribute="leading" id="hcz-mn-o8r"/>
                                                 <constraint firstItem="MmY-li-23q" firstAttribute="trailing" secondItem="wLD-zj-oaL" secondAttribute="trailing" id="iKW-Iw-5c7"/>
                                                 <constraint firstItem="MmY-li-23q" firstAttribute="top" secondItem="wLD-zj-oaL" secondAttribute="bottom" id="miK-ie-XAj"/>
                                                 <constraint firstItem="wLD-zj-oaL" firstAttribute="trailing" secondItem="ocW-3L-0Kz" secondAttribute="trailingMargin" id="r8S-3z-ms1"/>
                                                 <constraint firstItem="ajE-04-Umx" firstAttribute="top" secondItem="PSb-VJ-zkd" secondAttribute="bottom" id="vzs-qQ-dab"/>
+                                                <constraint firstItem="wLD-zj-oaL" firstAttribute="leading" secondItem="PSb-VJ-zkd" secondAttribute="trailing" priority="250" id="y5A-5W-jG5"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -175,7 +177,7 @@
         <!--Currencies-->
         <scene sceneID="zh1-oZ-ksy">
             <objects>
-                <viewController storyboardIdentifier="CurrenciesListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zfr-Yq-MSD" customClass="CurrenciesListViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CurrenciesListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zfr-Yq-MSD" customClass="CurrencyListViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gSh-It-ova">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -205,19 +207,21 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Australian Dollar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dh-Kt-mPU">
-                                                    <rect key="frame" x="105.5" y="18.5" width="118.5" height="19.5"/>
+                                                    <rect key="frame" x="105.5" y="18.5" width="199.5" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="0dh-Kt-mPU" secondAttribute="trailing" id="EiR-Vu-TGY"/>
                                                 <constraint firstItem="d2E-lN-ceU" firstAttribute="leading" secondItem="hXC-5V-aWD" secondAttribute="leading" constant="16" id="JbN-Ne-CKz"/>
                                                 <constraint firstItem="vbj-Qy-cgH" firstAttribute="leading" secondItem="d2E-lN-ceU" secondAttribute="trailing" constant="16" id="Rhh-f8-ziD"/>
                                                 <constraint firstItem="vbj-Qy-cgH" firstAttribute="centerY" secondItem="d2E-lN-ceU" secondAttribute="centerY" id="TcF-L0-1hO"/>
                                                 <constraint firstItem="0dh-Kt-mPU" firstAttribute="leading" secondItem="d2E-lN-ceU" secondAttribute="trailing" constant="65.5" id="bA4-Tg-X9q"/>
                                                 <constraint firstItem="d2E-lN-ceU" firstAttribute="centerY" secondItem="hXC-5V-aWD" secondAttribute="centerY" id="e73-ic-knO"/>
                                                 <constraint firstItem="0dh-Kt-mPU" firstAttribute="centerY" secondItem="vbj-Qy-cgH" secondAttribute="centerY" id="qDY-YD-Joq"/>
+                                                <constraint firstItem="0dh-Kt-mPU" firstAttribute="leading" secondItem="vbj-Qy-cgH" secondAttribute="trailing" priority="250" id="upz-34-mhv"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -278,7 +282,7 @@
         <!--Comparable currencies-->
         <scene sceneID="M34-aY-aH4">
             <objects>
-                <viewController storyboardIdentifier="ComparableCurrenciesListViewController" title="Comparable currencies" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ime-Mi-1Ut" customClass="ComparableCurrenciesListViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComparableCurrencyListViewController" title="Comparable currencies" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ime-Mi-1Ut" customClass="ComparableCurrencyListViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1iY-25-Q8V">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -308,7 +312,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Australian Dollar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aHR-nd-kXA">
-                                                    <rect key="frame" x="105.5" y="18.5" width="118.5" height="19.5"/>
+                                                    <rect key="frame" x="105.5" y="18.5" width="199.5" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -316,7 +320,9 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="9b5-xc-3jn" firstAttribute="leading" secondItem="YGe-1Q-hfz" secondAttribute="trailing" constant="16" id="0g8-U0-oKh"/>
+                                                <constraint firstItem="aHR-nd-kXA" firstAttribute="leading" secondItem="9b5-xc-3jn" secondAttribute="trailing" priority="250" id="1tP-GC-Hcq"/>
                                                 <constraint firstItem="aHR-nd-kXA" firstAttribute="leading" secondItem="YGe-1Q-hfz" secondAttribute="trailing" constant="65.5" id="2ph-xu-tGl"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="aHR-nd-kXA" secondAttribute="trailing" id="BZM-eb-zPY"/>
                                                 <constraint firstItem="9b5-xc-3jn" firstAttribute="centerY" secondItem="YGe-1Q-hfz" secondAttribute="centerY" id="IGk-62-o2W"/>
                                                 <constraint firstItem="YGe-1Q-hfz" firstAttribute="leading" secondItem="Vht-Rp-ui0" secondAttribute="leading" constant="16" id="TgT-Ps-Tvk"/>
                                                 <constraint firstItem="YGe-1Q-hfz" firstAttribute="centerY" secondItem="Vht-Rp-ui0" secondAttribute="centerY" id="iJm-uZ-6gf"/>
@@ -380,6 +386,6 @@
         <image name="Plus" width="40" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Itz-nt-3GO"/>
+        <segue reference="tju-Q1-YkT"/>
     </inferredMetricsTieBreakers>
 </document>

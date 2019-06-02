@@ -1,9 +1,9 @@
 //
-//  Currency.swift
-//  Revolut
+//  AppDelegate.swift
+//  Currencies
 //
-//  Created by Artem Lytkin on 20.08.2018.
-//  Copyright © 2018 Artem Lytkin. All rights reserved.
+//  Created by Artem Lytkin on 24/05/2019.
+//  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
 import Foundation
@@ -32,7 +32,23 @@ public class Currency: NSObject, NSCoding {
         }
     }
     
-    init(shortName: String) {
+    init?(shortName: String) {
+        
+        guard shortName.count == 3 else {
+            return nil
+        }
+        
+        let upperCase = CharacterSet.uppercaseLetters
+        for char in shortName.unicodeScalars {
+            if !upperCase.contains(char) {
+                return nil
+            }
+        }
+        
+        guard getLongName(from: shortName) != "" else {
+            return nil
+        }
+        
         self.shortName = shortName
     }
 }
