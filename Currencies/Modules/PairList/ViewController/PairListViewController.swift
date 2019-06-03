@@ -112,6 +112,13 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
     
     private func initViewModel() {
         
+        viewModel.backToEmptyScreen = { [weak self] in
+            DispatchQueue.main.async {
+                guard let tabbarVC = self?.parent as? UITabBarController else { return }
+                tabbarVC.selectedIndex = 0
+            }
+        }
+        
         viewModel.reloadTableViewClosure = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()

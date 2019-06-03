@@ -45,16 +45,11 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     @IBAction func done(segue: UIStoryboardSegue) {
-        // There is a seque to return back in MainViewController from ComparableCurrenciesListViewController
+        // There is a seque to return back in MainViewController from ComparableCurrenciesListViewController, PairListViewController
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         viewModel.didSelect(viewController: viewController)
-    }
-    
-    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
-        super.present(viewControllerToPresent, animated: flag, completion: completion)
-        print("present")
     }
 }
 

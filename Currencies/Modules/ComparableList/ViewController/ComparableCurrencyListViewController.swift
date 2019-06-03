@@ -73,7 +73,7 @@ class ComparableCurrencyListViewController: UIViewController, UITableViewDataSou
         
         // * sendPairsClosure
         viewModel.sendPairsClosure = { [weak self] in
-            // This segue is declared in PairsViewController.swift;
+            // This segue is declared in MainViewController.swift;
             // You can find its identifier in Main.storyboard -> Document Outline -> Comparable currencies Scene -> Unwind segue at bottom.
             self?.performSegue(withIdentifier: "BackToPairsScreenSegue", sender: nil)
         }

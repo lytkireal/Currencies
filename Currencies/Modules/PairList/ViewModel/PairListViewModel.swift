@@ -23,8 +23,10 @@ class PairListViewModel {
     
     private var pairs: [Pair] = [] {
         didSet {
-            print("PairListViewModel. Pairs have been updated")
             updateCellViewModels(with: pairs)
+            if pairs.isEmpty {
+                backToEmptyScreen?()
+            }
         }
     }
     
@@ -55,6 +57,7 @@ class PairListViewModel {
     
     var reloadTableViewClosure: EmptyClosure?
     var showAlertClosure: ErrorClosure?
+    var backToEmptyScreen: EmptyClosure?
     
     // MARK: - Lifecycle
     
