@@ -50,19 +50,7 @@ class MainViewModel {
     init(apiService: MainServiceProtocol = MainService()) {
         self.apiService = apiService
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
-            else { return }
-        
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        
-        let request = Pair.makeFetchRequest()
-        
-        do {
-            pairs = try managedObjectContext.fetch(request)
-            
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
+        pairs = apiService.loadPairs()
     }
     
     // MARK: - Public

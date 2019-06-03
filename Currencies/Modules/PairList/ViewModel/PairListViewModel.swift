@@ -17,20 +17,9 @@ struct PairListCellViewModel {
 
 class PairListViewModel {
     
-    // MARK: - Public Properties
-    
-    public var numberOfSections = 2
-    
-    // MARK: - Private Properties
+    // MARK: - Model
     
     private let apiService: PairServiceProtocol
-    
-    private var alertMessage: String? {
-        didSet {
-            guard let message = alertMessage else { return }
-            showAlertClosure?(message)
-        }
-    }
     
     private var pairs: [Pair] = [] {
         didSet {
@@ -45,6 +34,21 @@ class PairListViewModel {
         }
     }
     
+    // MARK: - Public Properties
+    
+    public var numberOfSections = 2
+    
+    // MARK: - Private Properties
+    
+    private let queue = DispatchQueue(label: "com.lytkinreal.currencies.pairs_list_service_array_queue", attributes: .concurrent)
+    
+    private var alertMessage: String? {
+        didSet {
+            guard let message = alertMessage else { return }
+            showAlertClosure?(message)
+        }
+    }
+
     private var timer = Timer()
     
     // MARK: - Binding
@@ -77,8 +81,12 @@ class PairListViewModel {
         }
     }
     
-    public func getCellViewModel(at indexPath: IndexPath) -> PairListCellViewModel {
-        let cellViewModel = cellViewModels[indexPath.row]
+    public func getCellViewModel(at indexPath: IndexPath) -> PairListCellViewModel? {
+        var cellViewModel: PairListCellViewModel?
+        
+        queue.sync {
+            cellViewModel = cellViewModels[indexPath.row]
+        }
         
         return cellViewModel
     }
@@ -104,10 +112,13 @@ class PairListViewModel {
     
     public func removeAction(at indexPath: IndexPath){
         apiService.removePair(pairs[indexPath.row])
-        pairs.remove(at: indexPath.row)
+        queue.async(flags: .barrier) {
+            self.pairs.remove(at: indexPath.row)
+        }
     }
     
     public func beginEditingAction() {
+        apiService.cancelRequests()
         timer.invalidate()
     }
     
@@ -135,8 +146,12 @@ class PairListViewModel {
     @objc
     private func updatePairs() {
         
-        let pairNames: [String] = pairs.map {
-            return $0.main.shortName + $0.secondary.shortName
+        var pairNames: [String] = []
+        
+        queue.sync {
+            pairNames = pairs.map {
+                return $0.main.shortName + $0.secondary.shortName
+            }
         }
         
         apiService.fetchNewValues(for: pairNames) {[weak self] pairPayloadList, error in
@@ -173,11 +188,15 @@ class PairListViewModel {
     private func updateCellViewModels(with pairs: [Pair]) {
         
         let cellViewModels = createCellViewModels(pairs: pairs)
-        self.cellViewModels = cellViewModels
+        queue.async(flags: .barrier) {
+            self.cellViewModels = cellViewModels
+        }
     }
     
     private func processAddedPairs(_ pairs: [Pair]) {
-        self.pairs.append(contentsOf: pairs)
+        queue.async(flags: .barrier) {
+            self.pairs.append(contentsOf: pairs)
+        }
     }
     
     private func createCellViewModels(pairs: [Pair]) -> [PairListCellViewModel] {

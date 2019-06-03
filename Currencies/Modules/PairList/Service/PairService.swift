@@ -13,11 +13,30 @@ protocol PairServiceProtocol: class {
     func fetchNewValues(for pairNames: [String], completion: @escaping FetchPairValuesClosure)
     func savePairs(_ pairs: [Pair])
     func removePair(_ pair: Pair)
+    func cancelRequests()
 }
 
 class PairService: PairServiceProtocol {
     
-    func removePair(_ pair: Pair) {
+    private var managedObjectContext: NSManagedObjectContext? {
+        get {
+            let appDelegate = UIApplication.shared.delegate as? AppDelegate
+            let context = appDelegate?.persistentContainer.viewContext
+            return context
+        }
+    }
+    
+    private var dataTasks: [URLSessionDataTask] = []
+    
+    public func cancelRequests() {
+        dataTasks.forEach {
+            $0.cancel()
+        }
+        
+        dataTasks.removeAll()
+    }
+    
+    public func removePair(_ pair: Pair) {
         guard let managedObjectContext = managedObjectContext else { return }
         
         let fetchRequest = Pair.makeFetchRequest(withPredicateFor: .main, filterText: pair.main)
@@ -40,7 +59,7 @@ class PairService: PairServiceProtocol {
         }
     }
     
-    func savePairs(_ pairs: [Pair]) {
+    public func savePairs(_ pairs: [Pair]) {
         guard let managedObjectContext = managedObjectContext else { return }
         
         let request = Pair.makeFetchRequest()
@@ -68,16 +87,8 @@ class PairService: PairServiceProtocol {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
-
-    var managedObjectContext: NSManagedObjectContext? {
-        get {
-            let appDelegate = UIApplication.shared.delegate as? AppDelegate
-            let context = appDelegate?.persistentContainer.viewContext
-            return context
-        }
-    }
     
-    func fetchNewValues(for pairNames: [String], completion: @escaping FetchPairValuesClosure) {
+    public func fetchNewValues(for pairNames: [String], completion: @escaping FetchPairValuesClosure) {
         
         guard let firstPair = pairNames.first else { return }
         
@@ -94,8 +105,9 @@ class PairService: PairServiceProtocol {
         
         let url = URL(string: urlString)
         
-        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            guard let data = data else {
+        let task = URLSession.shared.dataTask(with: url!) { [weak self] (data, response, error) in
+            guard let data = data,
+                let self = self else {
                 
                 if let err = error as NSError? {
                     if err.code == 499 {
@@ -112,13 +124,7 @@ class PairService: PairServiceProtocol {
             do {
                 let pairsData = try decoder.decode(Dictionary<String, Float>.self, from: data)
                 
-                var pairPayloadList: [PairPayload] = []
-                for (pairName, coefficient) in pairsData {
-                    
-                    if let pairPaylaod = PairService.makePairPayload(from: pairName, coefficient: coefficient) {
-                        pairPayloadList.append(pairPaylaod)
-                    }
-                }
+                let pairPayloadList = self.processFetchedPayload(pairsData)
                 completion(pairPayloadList, nil)
                 
             } catch {
@@ -127,6 +133,20 @@ class PairService: PairServiceProtocol {
         }
         
         task.resume()
+        dataTasks.append(task)
+    }
+    
+    // MARK: - Private
+    
+    private func processFetchedPayload(_ payload: [String: Float]) -> [PairPayload] {
+        var pairPayloadList: [PairPayload] = []
+        for (pairName, coefficient) in payload {
+            
+            if let pairPaylaod = PairService.makePairPayload(from: pairName, coefficient: coefficient) {
+                pairPayloadList.append(pairPaylaod)
+            }
+        }
+        return pairPayloadList
     }
     
     private func savePair(_ pair: Pair) {
@@ -145,8 +165,8 @@ class PairService: PairServiceProtocol {
                     }
                 }
                 
-            } catch {
-                
+            } catch let error as NSError {
+                print("Could not find the pair. \(error), \(error.userInfo)")
             }
         }
     }

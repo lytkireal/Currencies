@@ -11,6 +11,7 @@ import CoreData
 
 protocol MainServiceProtocol: class {
     func fetchPair(pairName: String, completion: @escaping (_ pairs: [Pair]?, _ error: APIError?) -> Void)
+    func loadPairs() -> [Pair]
 }
 
 class MainService: MainServiceProtocol {
@@ -23,14 +24,35 @@ class MainService: MainServiceProtocol {
         }
     }
     
+    // MARK: - Public
+    
+    func loadPairs() -> [Pair] {
+        guard let managedObjectContext = self.managedObjectContext else {
+            return []
+        }
+        
+        var pairs: [Pair] = []
+        
+        let request = Pair.makeFetchRequest()
+        
+        do {
+            pairs = try managedObjectContext.fetch(request)
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        return pairs
+    }
+    
     func fetchPair(pairName: String, completion: @escaping (_ pairs: [Pair]?, _ error: APIError?) -> Void) {
         
         let urlString = Network.host + "?pairs=\(pairName)"
         
         let url = URL(string: urlString)
         
-        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            guard let data = data else {
+        let task = URLSession.shared.dataTask(with: url!) { [weak self] (data, response, error) in
+            guard let data = data, let self = self else {
                 
                 if let err = error as NSError? {
                     if err.code == 499 {
@@ -48,20 +70,7 @@ class MainService: MainServiceProtocol {
                 let pairsData = try decoder.decode(Dictionary<String, Float>.self, from: data)
                 
                 DispatchQueue.main.async {
-                    var pairs: [Pair] = []
-                    
-                    guard let managedObjectContext = self.managedObjectContext else {
-                        completion(nil, APIError.noDataManager)
-                        return
-                    }
-                    
-                    for (pairName, coefficient) in pairsData {
-                        if let pair = MainService.makePair(from: pairName, coefficient: coefficient, context: managedObjectContext) {
-                            
-                            pairs.append(pair)
-                        }
-                    }
-                    
+                    let pairs = self.processFetchedPayload(pairsData)
                     self.savePairs()
                     completion(pairs, nil)
                 }
@@ -71,6 +80,24 @@ class MainService: MainServiceProtocol {
         }
         
         task.resume()
+    }
+    
+    // MARK: - Private
+    
+    private func processFetchedPayload(_ payload: [String: Float]) -> [Pair] {
+        var pairs: [Pair] = []
+        
+        guard let managedObjectContext = self.managedObjectContext else {
+            return []
+        }
+        
+        for (pairName, coefficient) in payload {
+            if let pair = MainService.makePair(from: pairName, coefficient: coefficient, context: managedObjectContext) {
+                pairs.append(pair)
+            }
+        }
+        
+        return pairs
     }
     
     private func savePairs() {

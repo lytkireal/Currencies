@@ -54,21 +54,30 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
             return cell
         }
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PairTableViewCell.identifier,
+        guard let cellModel = viewModel.getCellViewModel(at: indexPath),
+            let cell = tableView.dequeueReusableCell(withIdentifier: PairTableViewCell.identifier,
                                                        for: indexPath) as? PairTableViewCell
             else {
                 return UITableViewCell()
         }
         
-        let cellModel = viewModel.getCellViewModel(at: indexPath)
         cell.configureWithCellModel(cellModel)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         viewModel.removeAction(at: indexPath)
     }
+
+    // MARK: - UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        
+        return viewModel.isTopCell(at: indexPath) ? .none : .delete
+    }
+    
     
     func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
         viewModel.beginEditingAction()
@@ -77,8 +86,6 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
         viewModel.endEditingAction()
     }
-    
-    // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return viewModel.getCellHeight(at: indexPath)
