@@ -114,19 +114,19 @@ class PairListViewModel {
     }
     
     public func removeAction(at indexPath: IndexPath){
-        apiService.removePair(pairs[indexPath.row])
         queue.async(flags: .barrier) {
             self.pairs.remove(at: indexPath.row)
         }
+        apiService.removePair(pairs[indexPath.row])
     }
     
     public func beginEditingAction() {
-        apiService.cancelRequests()
         timer.invalidate()
+        apiService.cancelRequests()
     }
     
     public func endEditingAction() {
-        startTimer()
+        self.startTimer()
     }
     
     @objc
@@ -144,6 +144,7 @@ class PairListViewModel {
                                      selector: #selector(updatePairs),
                                      userInfo: nil,
                                      repeats: true)
+        
     }
     
     @objc
@@ -152,7 +153,7 @@ class PairListViewModel {
         var pairNames: [String] = []
         
         queue.sync {
-            pairNames = pairs.map {
+            pairNames = pairs.compactMap {
                 return $0.main.shortName + $0.secondary.shortName
             }
         }

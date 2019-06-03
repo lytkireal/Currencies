@@ -39,7 +39,7 @@ class PairService: PairServiceProtocol {
     public func removePair(_ pair: Pair) {
         guard let managedObjectContext = managedObjectContext else { return }
         
-        let fetchRequest = Pair.makeFetchRequest(withPredicateFor: .main, filterText: pair.main)
+        let fetchRequest = Pair.makeFetchRequest(withPredicateFor: pair.main, secondary: pair.secondary)
         
         do {
             let pairs = try managedObjectContext.fetch(fetchRequest)
@@ -110,7 +110,9 @@ class PairService: PairServiceProtocol {
                 let self = self else {
                 
                 if let err = error as NSError? {
-                    if err.code == 499 {
+                    if err.code == -999 {
+                        completion(nil, nil)
+                    } else if err.code == 499 {
                         completion(nil, APIError.invalidSessionResponse)
                     } else {
                         completion(nil, APIError.noNetwork)
@@ -147,28 +149,6 @@ class PairService: PairServiceProtocol {
             }
         }
         return pairPayloadList
-    }
-    
-    private func savePair(_ pair: Pair) {
-        DispatchQueue.main.async {
-            guard let managedObjectContext = self.managedObjectContext else { return }
-            
-            let fetchRequest = Pair.makeFetchRequest(withPredicateFor: .main, filterText: pair.main)
-            
-            do {
-                let pairs = try managedObjectContext.fetch(fetchRequest)
-                if pairs.isEmpty {
-                    do {
-                        try managedObjectContext.save()
-                    } catch let error as NSError {
-                        print("Could not save. \(error), \(error.userInfo)")
-                    }
-                }
-                
-            } catch let error as NSError {
-                print("Could not find the pair. \(error), \(error.userInfo)")
-            }
-        }
     }
     
     // MARK: - Static

@@ -21,14 +21,16 @@ extension Pair {
         return pair
     }
 
-    @nonobjc public class func makeFetchRequest(withPredicateFor property: Pair.PropertyNames? = nil,
-                                                filterText: Currency? = nil) -> NSFetchRequest<Pair> {
+    @nonobjc public class func makeFetchRequest(withPredicateFor
+        main: Currency? = nil, secondary: Currency? = nil) -> NSFetchRequest<Pair> {
         
         let fetchRequest = NSFetchRequest<Pair>(entityName: Pair.entityName)
         
-        if let unwrappedProperty = property,
-            let text = filterText {
-            fetchRequest.predicate = NSPredicate(format: "\(unwrappedProperty.rawValue) = %@", text)
+        if let mainCurrency = main,
+            let secondaryCurrency = secondary {
+            
+            fetchRequest.predicate = NSPredicate(format: "\(PropertyNames.main) = %@", mainCurrency)
+            fetchRequest.predicate = NSPredicate(format: "\(PropertyNames.secondary) = %@", secondaryCurrency)
         }
         
         return fetchRequest
