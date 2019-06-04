@@ -15,19 +15,120 @@ struct PairListCellViewModel {
     var value: String
 }
 
+protocol SynchronizedArrayDelegate: AnyObject {
+    func arrayChanged(isEmpty: Bool)
+}
+
+class SynchronizedArray<T> {
+    
+    weak var delegate: SynchronizedArrayDelegate?
+    private let queue = DispatchQueue(label: "com.lytkinreal.currencies.pairs_list_service_array_queue", attributes: .concurrent)
+    private var array: [T] = [] {
+        didSet {
+            delegate?.arrayChanged(isEmpty: array.isEmpty)
+        }
+    }
+    
+    public var isEmpty: Bool {
+        var isEmpty = true
+        queue.sync {
+            isEmpty = self.array.isEmpty
+        }
+        return isEmpty
+    }
+    
+    
+    public var count: Int {
+        var count = 0
+        queue.sync {
+            count = self.array.count
+        }
+        return count
+    }
+    
+    public var allValues: [T] {
+        var values: [T] = []
+        queue.sync {
+            values = self.array
+        }
+        return values
+    }
+    
+    public func append(_ newElement: T) {
+        queue.async(flags: .barrier) {
+            self.array.append(newElement)
+        }
+    }
+    
+    public func append(contentsOf sequence: [T]) {
+        queue.async(flags: .barrier) {
+            self.array.append(contentsOf: sequence)
+        }
+    }
+    
+    public func remove(at index: Int) -> T {
+        var element: T!
+        
+        queue.sync {
+            element = self.array.remove(at: index)
+        }
+        
+        return element
+    }
+    
+    public func first() -> T? {
+        var element: T?
+        
+        self.queue.sync {
+            element = self.array.first
+        }
+        
+        return element
+    }
+    
+    public func map<S>(_ transform: (T) -> S) -> [S] {
+        let result = self.array.map { (element) -> S in
+            transform(element)
+        }
+        
+        return result
+    }
+    
+    public func enumerated() -> EnumeratedSequence<[T]> {
+        var enumeratedSequence: EnumeratedSequence<[T]>!
+        
+        queue.sync {
+            enumeratedSequence = self.array.enumerated()
+        }
+        
+        return enumeratedSequence
+    }
+    
+    subscript(index: Int) -> T {
+        set {
+            queue.async(flags: .barrier) {
+                self.array[index] = newValue
+            }
+        }
+        get {
+            var element: T!
+            
+            queue.sync {
+                element = array[index]
+            }
+            
+            return element
+        }
+    }
+}
+
 class PairListViewModel {
     
     // MARK: - Model
     
     private let apiService: PairServiceProtocol
     
-    private var pairs: [Pair] = [] {
-        didSet {
-            if pairs.isEmpty {
-                backToEmptyScreen?()
-            }
-        }
-    }
+    private lazy var pairs = SynchronizedArray<Pair>()
     
     private var cellViewModels: [PairListCellViewModel] = [] {
         didSet {
@@ -40,8 +141,6 @@ class PairListViewModel {
     public var numberOfSections = 2
     
     // MARK: - Private Properties
-    
-    private let queue = DispatchQueue(label: "com.lytkinreal.currencies.pairs_list_service_array_queue", attributes: .concurrent)
     
     private var alertMessage: String? {
         didSet {
@@ -63,11 +162,13 @@ class PairListViewModel {
     
     init(apiService: PairServiceProtocol = PairService()) {
         self.apiService = apiService
+        pairs.delegate = self
     }
     
     // MARK: - Public
     
     public func startEngine() {
+        timer.invalidate()
         startTimer()
     }
     
@@ -75,7 +176,7 @@ class PairListViewModel {
         guard let receiver = viewController as? Receiver
             else { return }
         
-        receiver.receive(pairs)
+        receiver.receive(pairs.allValues)
     }
     
     public func receive(_ data: Any) {
@@ -86,10 +187,8 @@ class PairListViewModel {
     
     public func getCellViewModel(at indexPath: IndexPath) -> PairListCellViewModel? {
         var cellViewModel: PairListCellViewModel?
-        
-        queue.sync {
-            cellViewModel = cellViewModels[indexPath.row]
-        }
+    
+        cellViewModel = cellViewModels[indexPath.row]
         
         return cellViewModel
     }
@@ -107,17 +206,21 @@ class PairListViewModel {
     }
     
     public func getNumberOfCells(in section: Int) -> Int {
+        var count = 0
+        
         if section == 0 {
             return 1
         }
-        return pairs.count
+        
+        count = self.pairs.count
+        
+        return count
     }
     
     public func removeAction(at indexPath: IndexPath){
-        queue.async(flags: .barrier) {
-            self.pairs.remove(at: indexPath.row)
-        }
-        apiService.removePair(pairs[indexPath.row])
+        let removalPair = self.pairs.remove(at: indexPath.row)
+        self.apiService.removePair(removalPair)
+
         tableDeleteRowsClosure?([indexPath])
     }
     
@@ -132,8 +235,13 @@ class PairListViewModel {
     
     @objc
     public func viewDidDisappear() {
-        print("viewDidDisappear")
+        timer.invalidate()
+        
         apiService.savePairs(pairs)
+    }
+    
+    public func viewWillAppear() {
+        startEngine()
     }
     
     // MARK: - Private
@@ -153,10 +261,8 @@ class PairListViewModel {
         
         var pairNames: [String] = []
         
-        queue.sync {
-            pairNames = pairs.compactMap {
-                return $0.main.shortName + $0.secondary.shortName
-            }
+        pairNames = pairs.map {
+            return $0.main.shortName + $0.secondary.shortName
         }
         
         apiService.fetchNewValues(for: pairNames) {[weak self] pairPayloadList, error in
@@ -175,7 +281,6 @@ class PairListViewModel {
     }
     
     private func udpateCoefficients(withPayload payload: [PairPayload]) {
-        
         pairsLoop: for (indexInArray, pair) in pairs.enumerated() {
             for pairPayload in payload {
                 if pair.main == pairPayload.main,
@@ -187,27 +292,27 @@ class PairListViewModel {
             }
         }
         
+        
         updateCellViewModels(with: pairs)
     }
     
-    private func updateCellViewModels(with pairs: [Pair]) {
-        queue.async(flags: .barrier) {
-            let cellViewModels = self.createCellViewModels(pairs: pairs)
-            self.cellViewModels = cellViewModels
-        }
+    private func updateCellViewModels(with pairs: SynchronizedArray<Pair>) {
+        let cellViewModels = self.createCellViewModels(pairs: pairs)
+        self.cellViewModels = cellViewModels
     }
     
     private func processAddedPairs(_ pairs: [Pair]) {
-        queue.async(flags: .barrier) {
-            self.pairs.append(contentsOf: pairs)
-            self.updateCellViewModels(with: self.pairs)
-        }
+        self.pairs.append(contentsOf: pairs)
+        self.updateCellViewModels(with: self.pairs)
     }
     
-    private func createCellViewModels(pairs: [Pair]) -> [PairListCellViewModel] {
+    private func createCellViewModels(pairs: SynchronizedArray<Pair>) -> [PairListCellViewModel] {
         var cellViewModels: [PairListCellViewModel] = []
         
-        for pair in pairs {
+        let count = pairs.count
+        
+        for i in 0...count - 1 {
+            let pair = pairs[i]
             let mainCurrency = pair.main
             let secondaryCurrency = pair.secondary
             let titleText = "1 " + mainCurrency.shortName
@@ -221,5 +326,11 @@ class PairListViewModel {
         }
         
         return cellViewModels
+    }
+}
+
+extension PairListViewModel: SynchronizedArrayDelegate {
+    func arrayChanged(isEmpty: Bool) {
+        if isEmpty { backToEmptyScreen?() }
     }
 }

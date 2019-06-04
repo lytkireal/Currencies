@@ -96,8 +96,8 @@ class CurrencyListViewController: UIViewController, UITableViewDataSource, UITab
 // MARK: - Receiver
 
 extension CurrencyListViewController: Receiver {
-    func receive(_ data: Any) {
-        viewModel.receive(data)
+    func receive(_ pairs: [Pair]) {
+        viewModel.receive(pairs)
     }
 }
 

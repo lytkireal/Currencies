@@ -11,7 +11,7 @@ import CoreData
 
 protocol PairServiceProtocol: class {
     func fetchNewValues(for pairNames: [String], completion: @escaping FetchPairValuesClosure)
-    func savePairs(_ pairs: [Pair])
+    func savePairs(_ pairs: SynchronizedArray<Pair>)
     func removePair(_ pair: Pair)
     func cancelRequests()
 }
@@ -37,29 +37,31 @@ class PairService: PairServiceProtocol {
     }
     
     public func removePair(_ pair: Pair) {
-        guard let managedObjectContext = managedObjectContext else { return }
-        
-        let fetchRequest = Pair.makeFetchRequest(withPredicateFor: pair.main, secondary: pair.secondary)
-        
-        do {
-            let pairs = try managedObjectContext.fetch(fetchRequest)
-            for pair in pairs {
-                print(pair)
-                managedObjectContext.delete(pair)
-            }
+        DispatchQueue.main.async {
+            guard let managedObjectContext = self.managedObjectContext else { return }
+            
+            let fetchRequest = Pair.makeFetchRequest(withPredicateFor: pair.main, secondary: pair.secondary)
             
             do {
-                try managedObjectContext.save()
+                let pairs = try managedObjectContext.fetch(fetchRequest)
+                for pair in pairs {
+                    print(pair)
+                    managedObjectContext.delete(pair)
+                }
+                
+                do {
+                    try managedObjectContext.save()
+                } catch let error as NSError {
+                    print("Could not save changes. \(error), \(error.userInfo)")
+                }
+                
             } catch let error as NSError {
-                print("Could not save changes. \(error), \(error.userInfo)")
+                print("Could not delete. \(error), \(error.userInfo)")
             }
-
-        } catch let error as NSError {
-            print("Could not delete. \(error), \(error.userInfo)")
         }
     }
     
-    public func savePairs(_ pairs: [Pair]) {
+    public func savePairs(_ pairs: SynchronizedArray<Pair>) {
         guard let managedObjectContext = managedObjectContext else { return }
         
         let request = Pair.makeFetchRequest()
@@ -68,7 +70,9 @@ class PairService: PairServiceProtocol {
             let savedPairList = try managedObjectContext.fetch(request)
             
             for savedPair in savedPairList {
-                for currentPair in pairs {
+                let count = pairs.count
+                for i in 0...count - 1 {
+                    let currentPair = pairs[i]
                     if currentPair == savedPair {
                         savedPair.coefficient = currentPair.coefficient
                         savedPair.main = currentPair.main

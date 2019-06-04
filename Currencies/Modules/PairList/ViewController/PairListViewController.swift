@@ -9,7 +9,7 @@
 import UIKit
 
 protocol Receiver: AnyObject {
-    func receive(_ data: Any)
+    func receive(_ pairs: [Pair])
 }
 
 class PairListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -30,6 +30,12 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         
         initViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel.viewWillAppear()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -148,7 +154,7 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
 // MARK: - Receiver
 
 extension PairListViewController: Receiver {
-    func receive(_ data: Any) {
-        viewModel.receive(data)
+    func receive(_ pairs: [Pair]) {
+        viewModel.receive(pairs)
     }
 }
