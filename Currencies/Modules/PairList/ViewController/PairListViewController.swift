@@ -67,7 +67,6 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
         viewModel.removeAction(at: indexPath)
     }
 
@@ -122,6 +121,12 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
         viewModel.reloadTableViewClosure = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
+            }
+        }
+        
+        viewModel.tableDeleteRowsClosure = { [weak self] indexPaths in
+            DispatchQueue.main.async {
+                self?.tableView.deleteRows(at: indexPaths, with: .left)
             }
         }
         

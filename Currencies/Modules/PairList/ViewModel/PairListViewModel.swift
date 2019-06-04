@@ -23,7 +23,6 @@ class PairListViewModel {
     
     private var pairs: [Pair] = [] {
         didSet {
-            updateCellViewModels(with: pairs)
             if pairs.isEmpty {
                 backToEmptyScreen?()
             }
@@ -55,6 +54,7 @@ class PairListViewModel {
     
     // MARK: - Binding
     
+    var tableDeleteRowsClosure: TableViewRemoveRowsClosure?
     var reloadTableViewClosure: EmptyClosure?
     var showAlertClosure: ErrorClosure?
     var backToEmptyScreen: EmptyClosure?
@@ -118,6 +118,7 @@ class PairListViewModel {
             self.pairs.remove(at: indexPath.row)
         }
         apiService.removePair(pairs[indexPath.row])
+        tableDeleteRowsClosure?([indexPath])
     }
     
     public func beginEditingAction() {
@@ -190,9 +191,8 @@ class PairListViewModel {
     }
     
     private func updateCellViewModels(with pairs: [Pair]) {
-        
-        let cellViewModels = createCellViewModels(pairs: pairs)
         queue.async(flags: .barrier) {
+            let cellViewModels = self.createCellViewModels(pairs: pairs)
             self.cellViewModels = cellViewModels
         }
     }
@@ -200,6 +200,7 @@ class PairListViewModel {
     private func processAddedPairs(_ pairs: [Pair]) {
         queue.async(flags: .barrier) {
             self.pairs.append(contentsOf: pairs)
+            self.updateCellViewModels(with: self.pairs)
         }
     }
     

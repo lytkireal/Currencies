@@ -15,10 +15,12 @@ enum APIError: String, Error {
     case noDataManager = "App can't save pairs of currencies."
 }
 
+typealias TableViewRemoveRowsClosure = (_ removingIndexPaths:[IndexPath]) -> Void
 typealias EmptyClosure = () -> Void
 typealias ErrorClosure = (_ message: String) -> Void
-typealias PairPayload = (main: Currency, secondary: Currency, coefficient: Float)
 typealias FetchPairValuesClosure = ( [PairPayload]?, _ error: APIError?) -> Void
+
+typealias PairPayload = (main: Currency, secondary: Currency, coefficient: Float)
 
 struct Network {
     static let host = "https://europe-west1-revolut-230009.cloudfunctions.net/revolut-ios"
