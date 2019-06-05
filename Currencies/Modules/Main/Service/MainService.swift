@@ -6,7 +6,7 @@
 //  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import CoreData
 
 protocol MainServiceProtocol: class {
@@ -16,20 +16,15 @@ protocol MainServiceProtocol: class {
 
 class MainService: MainServiceProtocol {
     
-    var managedObjectContext: NSManagedObjectContext? {
-        get {
-            let appDelegate = UIApplication.shared.delegate as? AppDelegate
-            let context = appDelegate?.persistentContainer.viewContext
-            return context
-        }
+    private var managedObjectContext: NSManagedObjectContext
+    
+    init(managedObjectContext: NSManagedObjectContext = AppDelegate.appManagedObjectContext()) {
+        self.managedObjectContext = managedObjectContext
     }
     
     // MARK: - Public
     
     func loadPairs() -> [Pair] {
-        guard let managedObjectContext = self.managedObjectContext else {
-            return []
-        }
         
         var pairs: [Pair] = []
         
@@ -87,10 +82,6 @@ class MainService: MainServiceProtocol {
     private func processFetchedPayload(_ payload: [String: Float]) -> [Pair] {
         var pairs: [Pair] = []
         
-        guard let managedObjectContext = self.managedObjectContext else {
-            return []
-        }
-        
         for (pairName, coefficient) in payload {
             if let pair = MainService.makePair(from: pairName, coefficient: coefficient, context: managedObjectContext) {
                 pairs.append(pair)
@@ -102,10 +93,8 @@ class MainService: MainServiceProtocol {
     
     private func savePairs() {
         DispatchQueue.main.async {
-            guard let managedObjectContext = self.managedObjectContext else { return }
-            
             do {
-                try managedObjectContext.save()
+                try self.managedObjectContext.save()
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }

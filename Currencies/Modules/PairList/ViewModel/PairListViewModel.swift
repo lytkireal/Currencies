@@ -6,7 +6,7 @@
 //  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 struct PairListCellViewModel {
     let titleText: String
@@ -17,109 +17,6 @@ struct PairListCellViewModel {
 
 protocol SynchronizedArrayDelegate: AnyObject {
     func arrayChanged(isEmpty: Bool)
-}
-
-class SynchronizedArray<T> {
-    
-    weak var delegate: SynchronizedArrayDelegate?
-    private let queue = DispatchQueue(label: "com.lytkinreal.currencies.pairs_list_service_array_queue", attributes: .concurrent)
-    private var array: [T] = [] {
-        didSet {
-            delegate?.arrayChanged(isEmpty: array.isEmpty)
-        }
-    }
-    
-    public var isEmpty: Bool {
-        var isEmpty = true
-        queue.sync {
-            isEmpty = self.array.isEmpty
-        }
-        return isEmpty
-    }
-    
-    
-    public var count: Int {
-        var count = 0
-        queue.sync {
-            count = self.array.count
-        }
-        return count
-    }
-    
-    public var allValues: [T] {
-        var values: [T] = []
-        queue.sync {
-            values = self.array
-        }
-        return values
-    }
-    
-    public func append(_ newElement: T) {
-        queue.async(flags: .barrier) {
-            self.array.append(newElement)
-        }
-    }
-    
-    public func append(contentsOf sequence: [T]) {
-        queue.async(flags: .barrier) {
-            self.array.append(contentsOf: sequence)
-        }
-    }
-    
-    public func remove(at index: Int) -> T {
-        var element: T!
-        
-        queue.sync {
-            element = self.array.remove(at: index)
-        }
-        
-        return element
-    }
-    
-    public func first() -> T? {
-        var element: T?
-        
-        self.queue.sync {
-            element = self.array.first
-        }
-        
-        return element
-    }
-    
-    public func map<S>(_ transform: (T) -> S) -> [S] {
-        let result = self.array.map { (element) -> S in
-            transform(element)
-        }
-        
-        return result
-    }
-    
-    public func enumerated() -> EnumeratedSequence<[T]> {
-        var enumeratedSequence: EnumeratedSequence<[T]>!
-        
-        queue.sync {
-            enumeratedSequence = self.array.enumerated()
-        }
-        
-        return enumeratedSequence
-    }
-    
-    subscript(index: Int) -> T {
-        set {
-            queue.async(flags: .barrier) {
-                self.array[index] = newValue
-            }
-        }
-        get {
-            var element: T!
-            
-            queue.sync {
-                element = array[index]
-            }
-            
-            return element
-        }
-    }
 }
 
 class PairListViewModel {
@@ -164,8 +61,11 @@ class PairListViewModel {
         self.apiService = apiService
         pairs.delegate = self
     }
-    
-    // MARK: - Public
+}
+
+// MARK: - Methods.Public
+
+extension PairListViewModel {
     
     public func startEngine() {
         timer.invalidate()
@@ -187,13 +87,13 @@ class PairListViewModel {
     
     public func getCellViewModel(at indexPath: IndexPath) -> PairListCellViewModel? {
         var cellViewModel: PairListCellViewModel?
-    
+        
         cellViewModel = cellViewModels[indexPath.row]
         
         return cellViewModel
     }
     
-    public func getCellHeight(at indexPath: IndexPath) -> CGFloat {
+    public func getCellHeight(at indexPath: IndexPath) -> Float {
         if indexPath.section == 0 {
             return 70
         }
@@ -220,7 +120,7 @@ class PairListViewModel {
     public func removeAction(at indexPath: IndexPath){
         let removalPair = self.pairs.remove(at: indexPath.row)
         self.apiService.removePair(removalPair)
-
+        
         tableDeleteRowsClosure?([indexPath])
     }
     
@@ -243,8 +143,11 @@ class PairListViewModel {
     public func viewWillAppear() {
         startEngine()
     }
-    
-    // MARK: - Private
+}
+
+// MARK: - Methods.Private
+
+extension PairListViewModel {
     
     private func startTimer() {
         // Start timer with interval 1 s:
@@ -328,6 +231,8 @@ class PairListViewModel {
         return cellViewModels
     }
 }
+
+// MARK: - SynchronizedArrayDelegate
 
 extension PairListViewModel: SynchronizedArrayDelegate {
     func arrayChanged(isEmpty: Bool) {

@@ -6,7 +6,7 @@
 //  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import CoreData
 
 protocol PairServiceProtocol: class {
@@ -18,12 +18,10 @@ protocol PairServiceProtocol: class {
 
 class PairService: PairServiceProtocol {
     
-    private var managedObjectContext: NSManagedObjectContext? {
-        get {
-            let appDelegate = UIApplication.shared.delegate as? AppDelegate
-            let context = appDelegate?.persistentContainer.viewContext
-            return context
-        }
+    private var managedObjectContext: NSManagedObjectContext
+    
+    init(managedObjectContext: NSManagedObjectContext = AppDelegate.appManagedObjectContext()) {
+        self.managedObjectContext = managedObjectContext
     }
     
     private var dataTasks: [URLSessionDataTask] = []
@@ -38,19 +36,17 @@ class PairService: PairServiceProtocol {
     
     public func removePair(_ pair: Pair) {
         DispatchQueue.main.async {
-            guard let managedObjectContext = self.managedObjectContext else { return }
             
             let fetchRequest = Pair.makeFetchRequest(withPredicateFor: pair.main, secondary: pair.secondary)
             
             do {
-                let pairs = try managedObjectContext.fetch(fetchRequest)
+                let pairs = try self.managedObjectContext.fetch(fetchRequest)
                 for pair in pairs {
-                    print(pair)
-                    managedObjectContext.delete(pair)
+                    self.managedObjectContext.delete(pair)
                 }
                 
                 do {
-                    try managedObjectContext.save()
+                    try self.managedObjectContext.save()
                 } catch let error as NSError {
                     print("Could not save changes. \(error), \(error.userInfo)")
                 }
@@ -62,7 +58,6 @@ class PairService: PairServiceProtocol {
     }
     
     public func savePairs(_ pairs: SynchronizedArray<Pair>) {
-        guard let managedObjectContext = managedObjectContext else { return }
         
         let request = Pair.makeFetchRequest()
         

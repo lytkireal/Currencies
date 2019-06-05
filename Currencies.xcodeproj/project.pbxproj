@@ -19,6 +19,7 @@
 		1B433DAA22A1209500ED0532 /* MainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B433DA922A1209500ED0532 /* MainService.swift */; };
 		1B80DF59229C12A200816092 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B80DF58229C12A200816092 /* MainViewController.swift */; };
 		1B80DF5B229C15A000816092 /* PairListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B80DF5A229C15A000816092 /* PairListViewController.swift */; };
+		1BBB667E22A7F2EF00D1D500 /* SynchronizedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB667D22A7F2EF00D1D500 /* SynchronizedArray.swift */; };
 		1BCE3C982297EAD500CC9D24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BCE3C972297EAD500CC9D24 /* AppDelegate.swift */; };
 		1BCE3C9D2297EAD500CC9D24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1BCE3C9B2297EAD500CC9D24 /* Main.storyboard */; };
 		1BCE3C9F2297EAD700CC9D24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BCE3C9E2297EAD700CC9D24 /* Assets.xcassets */; };
@@ -60,6 +61,7 @@
 		1B433DA922A1209500ED0532 /* MainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainService.swift; sourceTree = "<group>"; };
 		1B80DF58229C12A200816092 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		1B80DF5A229C15A000816092 /* PairListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairListViewController.swift; sourceTree = "<group>"; };
+		1BBB667D22A7F2EF00D1D500 /* SynchronizedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedArray.swift; sourceTree = "<group>"; };
 		1BCE3C942297EAD500CC9D24 /* Currencies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Currencies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BCE3C972297EAD500CC9D24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1BCE3C9C2297EAD500CC9D24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			children = (
 				1B433DA822A11C9A00ED0532 /* Pair */,
 				1B17BC0B2298036F007E7BE3 /* Currency.swift */,
+				1BBB667D22A7F2EF00D1D500 /* SynchronizedArray.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0D9745C22A3A24E001903C7 /* UIViewController+Util.swift in Sources */,
+				1BBB667E22A7F2EF00D1D500 /* SynchronizedArray.swift in Sources */,
 				1BCE3CC02298007100CC9D24 /* CurrencyListViewController.swift in Sources */,
 				1B80DF59229C12A200816092 /* MainViewController.swift in Sources */,
 				D0D9746622A3CF70001903C7 /* Pair+CoreDataClass.swift in Sources */,

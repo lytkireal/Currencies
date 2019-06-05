@@ -58,8 +58,12 @@ class CurrencyListViewModel {
     init(apiService: CurrencyServiceProtocol = CurrencyService()) {
         self.apiService = apiService
     }
+}
+
+// MARK: - Methods.Public
+
+extension CurrencyListViewModel {
     
-    // MARK: - Public
     
     public func receive(_ data: Any) {
         if let pairList = data as? [Pair] {
@@ -81,7 +85,7 @@ class CurrencyListViewModel {
             
             guard error == nil,
                 let unwrappedCurrencies = currencies else {
-                
+                    
                     self?.alertMessage = error.debugDescription
                     return
             }
@@ -102,8 +106,11 @@ class CurrencyListViewModel {
         
         return ComparableCurrencyListViewModel(currencies: currencies, comparableCurrency: comparableCurrency)
     }
-    
-    // MARK: - Private
+}
+
+// MARK: - Methods.Private
+
+extension CurrencyListViewModel {
     
     private func processFetchedCurrencies(currencies: [Currency]) {
         self.currencies = currencies
@@ -139,10 +146,6 @@ class CurrencyListViewModel {
         return currencies
     }
 }
-
-
-
-
 
 
 

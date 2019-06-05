@@ -93,7 +93,8 @@ class PairListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return viewModel.getCellHeight(at: indexPath)
+        let cellHeight = viewModel.getCellHeight(at: indexPath)
+        return CGFloat(cellHeight)
     }
      
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {

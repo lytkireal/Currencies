@@ -41,8 +41,11 @@ class ComparableCurrencyListViewModel {
         self.firstCurrencyInPair = comparableCurrency
         processFetchedCurrencies(currencies: currencies)
     }
-    
-    // MARK: - Public
+}
+
+// MARK: - Methods.Public
+
+extension ComparableCurrencyListViewModel {
     
     public func userPressed(at indexPath: IndexPath) {
         secondCurrencyInPair = currencies[indexPath.row]
@@ -60,11 +63,14 @@ class ComparableCurrencyListViewModel {
         guard let pairsFetcher = viewController as? PairsFetcher,
             let secondCurrency = secondCurrencyInPair
             else { return }
-
+        
         pairsFetcher.fetchPair(first: firstCurrencyInPair, second: secondCurrency)
     }
-    
-    // MARK: - Private
+}
+
+// MARK: - Methods.Private
+
+extension ComparableCurrencyListViewModel {
     
     private func processFetchedCurrencies(currencies: [Currency]) {
         self.currencies = currencies
@@ -79,9 +85,6 @@ class ComparableCurrencyListViewModel {
         self.cellViewModels = cellViewModels
     }
 }
-
-
-
 
 
 

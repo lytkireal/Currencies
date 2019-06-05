@@ -6,7 +6,7 @@
 //  Copyright © 2019 Artem Lytkin. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class MainViewModel {
     
@@ -52,8 +52,12 @@ class MainViewModel {
         
         pairs = apiService.loadPairs()
     }
-    
-    // MARK: - Public
+}
+
+// MARK: - Methods
+
+extension MainViewModel {
+    // MARK: Public
     
     public func initData() {
         if pairs.isEmpty { return }
@@ -83,5 +87,4 @@ class MainViewModel {
             self?.pairs.append(contentsOf: unwrappedPairs)
         }
     }
-    
 }

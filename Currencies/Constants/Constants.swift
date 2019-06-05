@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum APIError: String, Error {
     case noNetwork = "No network. Check your network settings."
@@ -26,3 +27,4 @@ struct Network {
     static let host = "https://europe-west1-revolut-230009.cloudfunctions.net/revolut-ios"
     static let updatingInterval: TimeInterval = 1
 }
+
