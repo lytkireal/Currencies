@@ -96,6 +96,10 @@ class MainViewModelTests: XCTestCase {
 
 
 class MockMainService: MainServiceProtocol {
+    func loadPairs() -> [Pair] {
+        return completePairs
+    }
+    
     var isFetchPairCalled = false
     
     var completePairs: [Pair] = []
